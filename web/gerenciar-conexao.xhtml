@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+
+
+
+    <h:form id="frmPrincipal" rendered="#{funcionarioBean.isPermitir()}" >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Conexão - Indicador gerado diariamente às 18:00H">
+
+
+            
+
+
+           
+
+<p:toolbar  >
+                <p:toolbarGroup rendered="#{desconciliacaoNaoTratadaBean.isBuscar()}">
+
+
+                    <p:commandButton  value="Consultar indicador"  actionListener="#{conexaoBean.buscar()}"  update=":frmPrincipal" rendered="#{conexaoBean.isBuscar()==false}" ></p:commandButton>
+                    <p:commandButton  value="Atualizar página"  actionListener="#{conexaoBean.buscar()}"  update=":frmPrincipal" ></p:commandButton>
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+
+            
+            
+            
+            
+           
+
+
+
+            <p:dataTable id="tblConexao"  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} registros )" scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"   style="font-size: 10pt;width: auto"   value="#{conexaoBean.entidades}" var="d" rendered="#{conexaoBean.isBuscar()}" rows="100" paginator="true">
+
+             
+
+
+
+
+
+                <p:column   headerText="Orçado" sortBy="#{d.orcado}" >
+                    <h:outputText  value="#{d.orcado}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Realizado" sortBy="#{d.realizado}" >
+                    <h:outputText  value="#{d.realizado}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Indicador" sortBy="#{d.indicador}" >
+                    <h:outputText  value="#{d.indicador}">
+                        <f:convertNumber type="percent"  maxFractionDigits="2" />
+                    </h:outputText>
+
+                </p:column>
+                <p:column   headerText="Quantidade para atingir meta 99%" sortBy="#{d.orcadoComplementar}" >
+                    <h:outputText  value="#{d.orcadoComplementar}">
+                    
+                        
+                    </h:outputText>
+
+                </p:column>
+                <p:column   headerText="Data" sortBy="#{d.data}" >
+                    <h:outputText  value="#{d.data}">
+                    
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                    
+                    </h:outputText>
+
+                </p:column>
+
+
+
+
+
+
+
+                
+
+
+
+
+
+            </p:dataTable>
+
+            
+            
+            
+            
+            
+
+
+
+
+
+        </p:fieldset>
+
+
+    </h:form>
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:decorate>  

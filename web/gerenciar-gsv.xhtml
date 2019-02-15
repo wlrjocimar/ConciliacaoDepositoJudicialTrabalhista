@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+             xmlns:p="http://primefaces.org/ui"
+             template="template.xhtml"
+
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+
+
+
+
+    <h:form>
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Protocolos GSV">
+
+
+            <p:toolbar >
+                <p:toolbarGroup>
+
+
+                    <p:commandButton value="Listar todos" action="#{protocolosGsvBean.buscar()}" update="@form"></p:commandButton>
+                    <p:commandButton value="Filtros de pesquisa" action="#{protocolosGsvBean.novoProtocolo()}" update="@form"></p:commandButton>
+                    <p:commandButton icon="ui-icon-search" actionListener="#{protocolosGsvBean.consultarPorParametro()}"  rendered="#{protocolosGsvBean.isPesquisar()}" onclick="PF('dlg').show();" update=":tbConsultaProtocolo"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+        </p:fieldset>
+        <p:toolbar rendered="#{protocolosGsvBean.isBuscar()}" >
+                <p:toolbarGroup>
+                    
+                        <h:commandLink>
+                            <h:graphicImage  width="50px" library="imagens" name="excel.png" title="Exportar para Excel" ></h:graphicImage>
+
+                            <p:dataExporter type="csv" target="tblListarTodosProtocolos" fileName="tblHistorico" />
+                        </h:commandLink>
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+
+        <p:panelGrid columns="2"   rendered="#{protocolosGsvBean.isPesquisar()}">
+
+            <h:outputLabel  value="Numero do protocolo" ></h:outputLabel>
+            <p:inputText id="numeroProtocolo" value="#{protocolosGsvBean.protocolo}" ></p:inputText>
+
+
+
+
+        </p:panelGrid>
+
+
+
+        <p:toolbar rendered="#{protocolosGsvBean.isBuscar()}" >
+            <p:toolbarGroup>
+                <p:outputLabel value="Quantidade protocolos Rejud :#{protocolosGsvBean.numeroRegistro}" />
+            </p:toolbarGroup>
+        </p:toolbar>
+
+
+
+        <p:dataTable paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} prootocolos )"  style="font-size: 8pt"   id="tblListarTodosProtocolos" value="#{protocolosGsvBean.entidades}" var="u" rendered="#{protocolosGsvBean.isBuscar()}"  paginator="true" rows="1500">
+
+
+
+
+            <p:column headerText="Numero do protocolo" sortBy="#{u.numeroProtocolo}" >
+                <h:outputText value="#{u.numeroProtocolo}"></h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Nome do processo" sortBy="#{u.nomeProcesso}" filterBy="#{u.nomeProcesso}">
+                <h:outputText value="#{u.nomeProcesso}"></h:outputText>
+
+            </p:column>
+
+
+            <p:column headerText="Nome da  atividade"  sortBy="#{u.nomeAtividade}" filterBy="#{u.nomeAtividade}">
+                <h:outputText value="#{u.nomeAtividade}"></h:outputText>
+
+            </p:column>
+
+
+
+
+
+
+
+            <p:column headerText="Funcionário responsável" sortBy="#{u.funcionarioResponsavel}" filterBy="#{u.funcionarioResponsavel}" >
+                <h:outputText value="#{u.funcionarioResponsavel}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Nome da fase" sortBy="#{u.nomeFase}" >
+                <h:outputText value="#{u.nomeFase}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Data entratada " sortBy="#{u.dataEntradaProtocolo}"  filterBy="#{u.dataEntradaProtocolo}">
+                <h:outputText value="#{u.dataEntradaProtocolo}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Data de saída" sortBy="#{u.dataSaidaProtocolo}">
+                <h:outputText value="#{u.dataSaidaProtocolo}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+
+                </h:outputText>
+
+            </p:column>
+            <p:column headerText="Etapa" sortBy="#{u.nomeEtapa}"  filterBy="#{u.nomeEtapa}">
+                <h:outputText value="#{u.nomeEtapa}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Identificador1" sortBy="#{u.identificador1}" >
+                <h:outputText value="#{u.identificador1}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Identificador2" sortBy="#{u.identificador2}" >
+                <h:outputText value="#{u.identificador2}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Identificador3" sortBy="#{u.identificador3}" >
+                <h:outputText value="#{u.identificador3}"></h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Tipo  de processo" sortBy="#{u.nomeTipoProcesso}" >
+                <h:outputText value="#{u.nomeTipoProcesso}"></h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Classe do processo" sortBy="#{u.nomeClasse}" >
+                <h:outputText value="#{u.nomeClasse}"></h:outputText>
+
+            </p:column>
+
+
+
+        </p:dataTable>
+
+
+    </h:form>
+
+
+    <p:dialog modal="true" width="1000px" height="200px" widgetVar="dlg" header="Protocolos encontrados" id="dlg">
+
+        <p:dataTable style="font-size: 7pt" scrollWidth="auto" scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="80"  id="tbConsultaProtocolo" value="#{protocolosGsvBean.protocolos}" var="u"  paginator="true" rows="10">
+
+
+
+            <p:column headerText="Numero do protocolo" sortBy="#{u.numeroProtocolo}" >
+                <h:outputText value="#{u.numeroProtocolo}"></h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Nome do processo" sortBy="#{u.nomeProcesso}">
+                <h:outputText value="#{u.nomeProcesso}"></h:outputText>
+
+            </p:column>
+
+
+            <p:column headerText="Nome da  atividade"  sortBy="#{u.nomeAtividade}">
+                <h:outputText value="#{u.nomeAtividade}"></h:outputText>
+
+            </p:column>
+
+
+
+
+
+
+
+            <p:column headerText="Funcionário responsável" sortBy="#{u.funcionarioResponsavel}" >
+                <h:outputText value="#{u.funcionarioResponsavel}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Nome da fase" sortBy="#{u.nomeFase}" >
+                <h:outputText value="#{u.nomeFase}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Data entratada " sortBy="#{u.dataEntradaProtocolo}" >
+                <h:outputText value="#{u.dataEntradaProtocolo}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Data de saída" sortBy="#{u.dataSaidaProtocolo}">
+                <h:outputText value="#{u.dataSaidaProtocolo}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+
+                </h:outputText>
+
+            </p:column>
+            <p:column headerText="Etapa" sortBy="#{u.nomeEtapa}" >
+                <h:outputText value="#{u.nomeEtapa}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Identificador1" sortBy="#{u.identificador1}" >
+                <h:outputText value="#{u.identificador1}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Identificador2" sortBy="#{u.identificador2}" >
+                <h:outputText value="#{u.identificador2}"></h:outputText>
+
+            </p:column>
+            <p:column headerText="Identificador3" sortBy="#{u.identificador3}" >
+                <h:outputText value="#{u.identificador3}"></h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Tipo  de processo" sortBy="#{u.nomeTipoProcesso}" >
+                <h:outputText value="#{u.nomeTipoProcesso}"></h:outputText>
+
+            </p:column>
+
+            <p:column headerText="Classe do processo" sortBy="#{u.nomeClasse}" >
+                <h:outputText value="#{u.nomeClasse}"></h:outputText>
+
+            </p:column>
+
+
+
+
+        </p:dataTable>
+    </p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:decorate>

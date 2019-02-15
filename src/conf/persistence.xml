@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="ConciliacaoDepositoJudicialPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.com.intranet.cenopservicoscwb.entity.SolicitacaoLevantamento</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Atividade</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.GrupoTratamento</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.GrupoInconsistencia</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.GrupoStatus</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.AtividadeFunci</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.TbDesconciliacaoDjoPaj</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Desconciliacao</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.HistoricoDesconciliacao</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Inedito</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.SerieDesconciliacao</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Volumetria</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Conexao</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.SerieHistorica</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Efetivacao</class>
+    <class>br.com.intranet.cenopservicoscwb.entity.Orcado</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://172.20.0.33:3306/rejud?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="rejud"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="giEC8e"/>
+    </properties>
+  </persistence-unit>
+</persistence>

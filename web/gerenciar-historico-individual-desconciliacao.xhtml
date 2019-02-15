@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+
+
+
+    <h:form id="frmPesquisaHistorico"  >
+
+
+
+
+
+        <p:messages autoUpdate="true"></p:messages>
+
+
+
+        <p:fieldset legend="Histórico de tratamento individual">
+
+
+            <p:toolbar  >
+                <p:toolbarGroup >
+
+
+                    <p:commandButton  value="Listar tratamentos efetuados"  actionListener="#{historicoIndividualDesconciliacaoBean.buscar()}"  update=":frmPesquisaHistorico" rendered="#{historicoIndividualDesconciliacaoBean.isBuscar()==false}" ></p:commandButton>
+                    <p:commandButton  value="Atualizar página"  actionListener="#{historicoIndividualDesconciliacaoBean.buscar()}"  update=":frmPesquisaHistorico" ></p:commandButton>
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+
+
+
+
+
+
+            <p:panelGrid  columns="2"  id ="painel" rendered="#{historicoIndividualDesconciliacaoBean.isBuscar()== false}">
+
+
+            </p:panelGrid>
+
+
+            <p:toolbar rendered="#{historicoIndividualDesconciliacaoBean.isBuscar()}" >
+                <p:toolbarGroup>
+                    <p:outputLabel value="Total tratado: #{historicoIndividualDesconciliacaoBean.numeroRegistro}" />
+                </p:toolbarGroup>
+            </p:toolbar>
+            
+            
+            
+
+           
+            
+            
+            
+            
+
+
+
+            <p:dataTable paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} tratamentos )" id="tblHistorico" scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"   style="font-size: 10pt;width: auto"   value="#{historicoIndividualDesconciliacaoBean.entidades}" var="h"  rows="100" paginator="true" rendered="#{historicoIndividualDesconciliacaoBean.isBuscar()}">
+
+
+
+
+
+
+                <p:column   headerText="Npj" sortBy="#{h.npj}" filterBy="#{h.npj}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.npj}"></h:outputText>
+
+                </p:column>
+
+
+
+                <p:column headerText="Conta depositaria" sortBy="#{h.contaDepositaria}" filterBy="#{h.contaDepositaria}" filterMatchMode="contains" >
+                    <h:outputText   value="#{h.contaDepositaria}"></h:outputText>
+
+                </p:column>
+
+                <p:column headerText="Status" sortBy="#{h.situacao}" filterBy="#{h.situacao}" >
+                    <h:outputText   value="#{h.situacao}"></h:outputText>
+
+                </p:column>
+                <p:column headerText="Complemento" sortBy="#{h.nomeTratamento}" >
+                    <h:outputText   value="#{h.nomeTratamento}"></h:outputText>
+
+                </p:column>
+
+                <p:column headerText="Funcionário" sortBy="#{h.funcionarioResponsavelSituacao}" filterBy="#{h.funcionarioResponsavelSituacao}"  filterMatchMode="contains" >
+                    <h:outputText   value="#{h.funcionarioResponsavelSituacao}"></h:outputText>
+
+                </p:column>
+                <p:column headerText="Valor desconciliação" sortBy="#{h.valorDesconciliacao}"  >
+                    <h:outputText   value="#{h.valorDesconciliacao}">
+                        <f:convertNumber currencyCode="R$" type="number" />
+                    </h:outputText>
+
+                </p:column>
+                <p:column headerText="Data tratamento" sortBy="#{h.dataSituacao}"  filterBy="#{h.dataSituacao}"  filterMatchMode="contains" >
+                    <h:outputText   value="#{h.dataSituacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"  />
+
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                 <p:column headerText="Data início desconciliação Diris" sortBy="#{h.dataDesconciliacao}" filterBy="#{h.dataDesconciliacao}"  filterMatchMode="contains"  >
+                    <h:outputText   value="#{h.dataDesconciliacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"  />
+
+                    </h:outputText>
+
+                </p:column>
+                
+                <p:column headerText="Data entrada Banco" sortBy="#{h.dataEntradaBd}" filterBy="#{h.dataEntradaBd}"  filterMatchMode="contains"  >
+                    <h:outputText   value="#{h.dataEntradaBd}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"  />
+
+                    </h:outputText>
+
+                </p:column>
+
+
+
+
+
+
+            </p:dataTable>
+
+
+
+
+
+
+
+
+
+
+
+        </p:fieldset>
+
+
+
+    </h:form>
+
+
+
+
+
+
+</ui:decorate>  

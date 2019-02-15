@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    
+
+    <h:form >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Efetivação de depósito">
+            
+            
+             <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Nova efetivação" action="#{efetivacaoBean.novo()}" rendered="#{efetivacaoBean.isBuscar()}" update="@form"></p:commandButton>
+                   
+                    <p:commandButton class="btn btn-success" value="Salvar" action="#{efetivacaoBean.validarParaSalvar()}"  rendered="#{efetivacaoBean.isBuscar()==false}" update="@form"></p:commandButton>
+                    <p:commandButton class="btn btn-primary" value="Listar pedidos" action="#{efetivacaoBean.buscar()}"  update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+            <p:panelGrid  columns="2" rendered="#{efetivacaoBean.isBuscar()== false}">
+             
+                
+                
+                <h:outputLabel  for="" value="Protocolo Gsv"></h:outputLabel>
+                 <p:inputText   value="#{efetivacaoBean.entidade.protocoloGsv}" style="color: blue" ></p:inputText>
+               
+                
+                <h:outputLabel  for="" value="Npj"></h:outputLabel>
+                <p:inputText   value="#{efetivacaoBean.entidade.npj}" style="color: blue" ></p:inputText>
+                
+                
+               
+                
+                
+                
+                <h:outputLabel  for="" value="Banco depositário" ></h:outputLabel>
+                <p:selectOneMenu value="#{efetivacaoBean.entidade.bancoDepositario}">
+                    
+                    <f:selectItem itemValue="CAIXA ECONOMICA FEDERAL" itemLabel="CAIXA ECONOMICA FEDERAL"></f:selectItem>
+                    <f:selectItem itemValue="BANRISUL" itemLabel="BANRISUL"></f:selectItem>
+                    <f:selectItem itemValue="BANESTES" itemLabel="BANESTES"></f:selectItem>
+                    <f:selectItem itemValue="BANESE" itemLabel="BANESE"></f:selectItem>
+                    <f:selectItem itemValue="BANPARA" itemLabel="BANPARA"></f:selectItem>
+                    
+                    
+                </p:selectOneMenu>
+                
+                
+                <h:outputLabel  for="" value="Agencia depositária"></h:outputLabel>
+                <p:inputText   value="#{efetivacaoBean.entidade.agenciaDepositaria}" style="color: blue" ></p:inputText>
+               
+                
+                
+                
+                 <h:outputLabel  for="" value="Conta Depositária"></h:outputLabel>
+                 <p:inputText   value="#{efetivacaoBean.entidade.contaDepositaria}" style="color: blue"  ></p:inputText>
+                
+                 <h:outputLabel  for="" value="Valor da efetivação"></h:outputLabel>
+                 <p:inputMask   mask="" value="#{efetivacaoBean.entidade.valorEfetivacao}" style="color: blue"  ></p:inputMask>
+                
+               
+                
+                
+                
+                
+            </p:panelGrid>
+            
+            
+            
+            
+            <p:toolbar rendered="#{efetivacaoBean.isBuscar()}" >
+                <p:toolbarGroup>
+                    
+                        <h:commandLink>
+                            <h:graphicImage  width="50px" library="imagens" name="excel.png" title="Exportar para Excel" ></h:graphicImage>
+
+                            <p:dataExporter type="xls" target="tblEfetivacao" fileName="tabelaEfetivacao" />
+                        </h:commandLink>
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+            
+            
+            
+            
+            
+            <p:dataTable paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} registros )" id="tblEfetivacao" scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"   style="font-size: 10pt;width: auto"   value="#{efetivacaoBean.entidades}" var="i"  rows="1500" paginator="true" rendered="#{efetivacaoBean.isBuscar()}">
+                <p:column  width="auto" exportable="false" >
+                    <p:commandButton   style="width: 80px"   value="Editar" action="#{efetivacaoBean.editar(i)}" update="@form"> </p:commandButton>  
+                    <p:commandButton   style="width:80px"   value="Excluir" action="#{efetivacaoBean.deletar(i)}" rendered="#{funcionarioBean.isCargoGerencial()}" update="@form"> </p:commandButton>  
+                     
+
+                </p:column>
+               
+
+
+               
+                
+                
+                <p:column  headerText="Npj" sortBy="#{i.npj}" filterBy="#{i.npj}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.npj}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Banco depositário" sortBy="#{i.bancoDepositario}" filterBy="#{i.bancoDepositario}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.bancoDepositario}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Agencia depositária" sortBy="#{i.agenciaDepositaria}" filterBy="#{i.agenciaDepositaria}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.agenciaDepositaria}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Conta depositária" sortBy="#{i.contaDepositaria}" filterBy="#{i.contaDepositaria}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.contaDepositaria}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Valor da Efetivação" sortBy="#{i.valorEfetivacao}" filterBy="#{i.valorEfetivacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.valorEfetivacao}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Funcionário Reponsável" sortBy="#{i.funciResponsavelSolicitacao}" filterBy="#{i.funciResponsavelSolicitacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.funciResponsavelSolicitacao}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Data efetivação" sortBy="#{i.dataSolicitacao}" filterBy="#{i.dataSolicitacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.dataSolicitacao}">
+                    <f:convertDateTime   pattern="dd/MM/yyy" />
+                    </h:outputText>
+
+                </p:column>
+                <p:column  headerText="Situação do depósito"  sortBy="#{i.situacaoDeposito}" filterBy="#{i.situacaoDeposito}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.situacaoDeposito}" style="color: blue"></h:outputText>
+
+                </p:column>
+                 <p:column  headerText="Protocolo GSV" sortBy="#{i.protocoloGsv}" filterBy="#{i.protocoloGsv}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.protocoloGsv}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Observação" sortBy="#{i.protocoloGsv}" filterBy="#{i.obs}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.obs}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Processo" sortBy="#{i.protocoloGsv}" filterBy="#{i.processo}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.processo}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Modalidade" sortBy="#{i.modalidade}" filterBy="#{i.modalidade}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.modalidade}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Valor inicial" sortBy="#{i.valorInicial}" filterBy="#{i.valorInicial}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.valorInicial}"></h:outputText>
+
+                </p:column>
+                <p:column  headerText="Saldo atual" sortBy="#{i.saldoAtual}" filterBy="#{i.saldoAtual}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.saldoAtual}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Data Inicial" sortBy="#{i.dataInicial}" filterBy="#{i.dataInicial}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.dataInicial}">
+                     <f:convertDateTime   pattern="dd/MM/yyy" />
+                    </h:outputText>
+
+                </p:column>
+                
+                
+               
+                
+                
+
+            </p:dataTable>
+
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  

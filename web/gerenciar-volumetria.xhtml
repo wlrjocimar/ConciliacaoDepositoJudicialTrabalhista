@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+
+
+
+    <h:form id="frmPrincipal"  >
+
+
+
+
+
+        <p:messages autoUpdate="true"></p:messages>
+
+
+
+        <p:fieldset legend="Volumetria">
+
+
+            <p:toolbar  >
+                <p:toolbarGroup >
+
+
+                    <p:commandButton  value="Atualizar página"  actionListener="#{volumetriaBean.buscar()}"  update=":frmPrincipal" ></p:commandButton>
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+
+
+
+
+
+
+            
+            
+            
+            
+
+            <p:toolbar rendered="#{volumetriaBean.isBuscar()}" >
+                <p:toolbarGroup>
+                    
+                        <h:commandLink>
+                            <h:graphicImage  width="50px" library="imagens" name="excel.png" title="Exportar para Excel" ></h:graphicImage>
+
+                            <p:dataExporter type="xls" target="tblVolumeria" fileName="tblVolumeria" />
+                        </h:commandLink>
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+            
+            
+            
+            
+            
+
+
+
+            <p:dataTable id="tblVolumeria"   value="#{volumetriaBean.entidades}" var="h"  rows="100" paginator="true" rendered="#{volumetriaBean.isBuscar()}" style="font-size: 10pt;width: auto">
+
+
+
+
+
+
+                <p:column   headerText="Mês apuracão" sortBy="#{h.mesTratamento}" filterBy="#{h.mesTratamento}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.mesTratamento}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column   headerText="Prefixo" sortBy="#{h.prefixo}" filterBy="#{h.prefixo}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.prefixo}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column   headerText="Funcionário executante" sortBy="#{h.funcionario}" filterBy="#{h.funcionario}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.funcionario}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Código de  função" sortBy="#{h.codigoFuncao}" filterBy="#{h.codigoFuncao}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.codigoFuncao}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column   headerText="Uor de Localizaçao" sortBy="#{h.uorLocalizacao}" filterBy="#{h.uorLocalizacao}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.uorLocalizacao}"></h:outputText>
+
+                </p:column>
+                
+                <p:column   headerText="Processo no Gsv?(1-Sim/0-Não)" sortBy="#{h.processoNoGsv}" filterBy="#{h.processoNoGsv}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.processoNoGsv}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Código do Processo" sortBy="#{h.codigoProcesso}" filterBy="#{h.codigoProcesso}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.codigoProcesso}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Código da Atividade" sortBy="#{h.codigoAtividade}" filterBy="#{h.codigoAtividade}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.codigoAtividade}"></h:outputText>
+
+                </p:column>
+                
+                <p:column   headerText="Código Detalhe da Atividade" sortBy="#{h.codigoDetalheAtividade}" filterBy="#{h.codigoDetalheAtividade}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.codigoDetalheAtividade}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Código da Tarefa" sortBy="#{h.codigoTarefa}" filterBy="#{h.codigoTarefa}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.codigoTarefa}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Cargo gerencial (1-Sim/0-Não)" sortBy="#{h.cargoGerencial}" filterBy="#{h.cargoGerencial}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.cargoGerencial}"></h:outputText>
+
+                </p:column>
+                
+                <p:column   headerText="Chave F,C,T,J?" sortBy="#{h.tipoChave}" filterBy="#{h.tipoChave}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.tipoChave}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Qtd processos  concluidos" sortBy="#{h.quantidadeProcessoConcluido}" filterBy="#{h.quantidadeProcessoConcluido}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.quantidadeProcessoConcluido}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Qtd processos  devolvidos" sortBy="#{h.quantidadeProcessoDevolvido}" filterBy="#{h.quantidadeProcessoDevolvido}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.quantidadeProcessoDevolvido}"></h:outputText>
+
+                </p:column>
+                
+               
+                <p:column   headerText="Qtd de tarefas  concluidas" sortBy="#{h.quantidadeTarefaConcluida}" filterBy="#{h.quantidadeTarefaConcluida}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.quantidadeTarefaConcluida}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Variável de Controle (informe 0)" sortBy="#{h.quantidadeTarefaDevolvida}" filterBy="#{h.quantidadeTarefaDevolvida}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.quantidadeTarefaDevolvida}"></h:outputText>
+
+                </p:column>
+                <p:column   headerText="Inclusão da volumetria? (0-Sim / 1-Exclusão)" sortBy="#{h.quantidadeTarefaDevolvida}" filterBy="#{h.quantidadeTarefaDevolvida}" filterMatchMode="contains">
+                    
+                   
+                    <h:outputText  value="#{h.quantidadeTarefaDevolvida}"></h:outputText>
+
+                </p:column>
+                
+
+
+
+            </p:dataTable>
+
+
+
+
+
+
+
+
+
+
+
+        </p:fieldset>
+
+
+
+    </h:form>
+
+
+
+
+
+
+</ui:decorate>  

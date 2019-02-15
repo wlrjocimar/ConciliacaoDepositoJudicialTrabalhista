@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+    <h:form  id="formUpdate" enctype="multipart/form-data" >
+        
+        <p:panelGrid columns="1">
+            <h:inputFile  value="#{uploadBean.file}" title="Selecione um arquivo" label="Carregar arquivo"  required="true" requiredMessage="O arquivo deve ser selecionado"></h:inputFile>
+            
+            <h:commandButton actionListener="#{uploadBean.upload()}" value="Salvar arquivo"   ></h:commandButton>
+            <p:commandButton  value="Comfirmar Upload" onclick="PF('dlg').show();"  ></p:commandButton>
+            <p:commandButton  value="Ler Xlsx" ></p:commandButton>
+            
+            
+            
+        </p:panelGrid>
+        
+        
+        
+        
+
+    </h:form>
+    
+    
+    <p:dialog id="dlg" width="500px" height="100px" widgetVar="dlg" header="Upload" modal="true">
+        
+        <p align="center">Último arquivo enviado</p>
+        <p align="center" style="color: blue">#{uploadBean.fileName}</p>
+    </p:dialog>
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  

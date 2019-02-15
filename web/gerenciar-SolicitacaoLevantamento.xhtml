@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+
+    <h:form id="frmLevantamentos">
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Lista de levantamentos">
+            
+            
+            <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Novo" action="#{solicitacaoLevantamentoBean.novo()}" update=":frmLevantamentos"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{solicitacaoLevantamentoBean.salvar()}"  disabled="#{solicitacaoLevantamentoBean.isBuscar()}" update=":frmLevantamentos"></p:commandButton>
+                    <p:commandButton value="Buscar" action="#{solicitacaoLevantamentoBean.buscarPorParametro(entidade)}" update=":frmLevantamentos"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+                <p:panelGrid columns="2" rendered="#{solicitacaoLevantamentoBean.isBuscar()== false}">
+                <h:outputLabel for="" value="Numero da Solicitacao de Levantamento"></h:outputLabel>
+                <p:inputText value="#{solicitacaoLevantamentoBean.entidade.nrSlctRsgtDep}"></p:inputText>
+
+                <h:outputLabel for="" value="Numero do Npj"></h:outputLabel>
+                <p:inputText value="#{solicitacaoLevantamentoBean.entidade.npj}"></p:inputText>
+
+
+                <h:outputLabel for="" value="Tipo de tratamento"></h:outputLabel>
+                <p:selectOneMenu maxlength="30" id="select" value="#{solicitacaoLevantamentoBean.entidade.situacaoResgate}">
+                    <f:selectItem  itemValue="0" itemLabel="Selecione o  Status de tratamento" />
+                    <f:selectItem  itemValue="REGULARIZADO" itemLabel="REGULARIZADO" />
+                    <f:selectItem itemValue="DEVOLVIDO" itemLabel="DEVOLVIDO" />  
+                    <f:selectItem itemValue="INCONSISTENCIA" itemLabel="INCONSISTENCIA" />  
+                    <f:selectItem itemValue="EM TRATAMENTO" itemLabel="TRATAMENTO" /> 
+
+                </p:selectOneMenu>
+
+
+                <h:outputLabel for="" value="Numero da conta judicial"></h:outputLabel>
+                <p:inputText  value="#{solicitacaoLevantamentoBean.entidade.contaDepositaria}"></p:inputText>
+                
+                <h:outputLabel for="" value="Valor do Resgate:"></h:outputLabel>
+                <p:inputText  value="#{solicitacaoLevantamentoBean.entidade.vlRsgt}"></p:inputText>
+
+
+            </p:panelGrid>
+            
+            
+            
+            
+            
+            <p:dataTable value="#{solicitacaoLevantamentoBean.entidades}" var="levantamento" rendered="#{solicitacaoLevantamentoBean.isBuscar()}">
+
+                <p:column>
+                    
+                    <p:commandButton value="Editar" action="#{solicitacaoLevantamentoBean.editar(levantamento)}" update="@form"> </p:commandButton>   
+                    <p:commandButton value="Deletar" action="#{solicitacaoLevantamentoBean.deletar(levantamento)}" update="@form"> </p:commandButton>   
+
+                </p:column>
+
+
+
+                <p:column headerText="Numero do npj" sortBy="#{levantamento.npj}">
+                    
+                    <h:outputFormat   value="#{levantamento.npj}"></h:outputFormat>
+                    
+                </p:column>   
+
+               
+                    
+                 <p:column headerText="Conta Judicial" sortBy="#{levantamento.contaDepositaria}">
+                    
+                    <h:outputFormat   value="#{levantamento.contaDepositaria}"></h:outputFormat>
+                    
+                    
+
+                </p:column>
+                    
+                    
+                    
+                    
+                 <p:column headerText="Valor do Resgate" sortBy="#{levantamento.vlRsgt}">
+                    
+                    <h:outputFormat   value="#{levantamento.vlRsgt}"></h:outputFormat>
+                    
+                    
+
+                </p:column>
+                
+                 <p:column headerText="Numero do ofício" sortBy="#{levantamento.numeroOficio}">
+                    
+                    <h:outputFormat   value="#{levantamento.numeroOficio}"></h:outputFormat>
+                    
+                    
+
+                </p:column>
+                
+                
+                 <p:column headerText="Data resgate DJO" sortBy="#{levantamento.dataResgateDjo}">
+                    
+                    <h:outputFormat   value="#{levantamento.dataResgateDjo}"></h:outputFormat>
+                    
+                    
+
+                </p:column>
+                
+
+            </p:dataTable>
+
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+
+
+</ui:decorate>  

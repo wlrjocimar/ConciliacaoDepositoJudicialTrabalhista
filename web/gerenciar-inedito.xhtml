@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    
+
+    <h:form >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Solicitação de inédito">
+            
+            
+             <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Solicitar inédito" action="#{ineditoBean.novo()}" rendered="#{ineditoBean.isBuscar()}" update="@form"></p:commandButton>
+                   
+                    <p:commandButton class="btn btn-success" value="Salvar" action="#{ineditoBean.validarParaSalvar()}"  rendered="#{ineditoBean.isBuscar()==false}" update="@form"></p:commandButton>
+                    <p:commandButton class="btn btn-primary" value="Listar pedidos" action="#{ineditoBean.buscar()}"  update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+            <p:panelGrid  columns="2" rendered="#{ineditoBean.isBuscar()== false}">
+                <h:outputLabel  for="" value="Npj"></h:outputLabel>
+                <p:inputText   value="#{ineditoBean.entidade.npj}" style="color: blue" placeholder="não use /" ></p:inputText>
+
+                <h:outputLabel  for="" value="Variação" ></h:outputLabel>
+                <p:inputText value="#{ineditoBean.entidade.variacaoNpj}"  style="color: blue"  ></p:inputText>
+                
+                <h:outputLabel  for="" value="Conta Depositária" ></h:outputLabel>
+                <p:inputText value="#{ineditoBean.entidade.contaDepositaria}"  style="color: blue"></p:inputText>
+                
+                <h:outputLabel  for="" value="Valor resgate" ></h:outputLabel>
+                <p:inputText value="#{ineditoBean.entidade.vlRsgt}"  style="color: blue" >
+                
+                    
+                </p:inputText>
+                
+                
+                <h:outputLabel  for="" value="Número Ofício djo 51" ></h:outputLabel>
+                <p:inputText value="#{ineditoBean.entidade.nrOficio}"  style="color: blue" ></p:inputText>
+                
+                <h:outputLabel  for="" value="Tipo de destinação" ></h:outputLabel>
+                <p:selectOneMenu value="#{ineditoBean.entidade.tipoDestinacao}">
+                    
+                    <f:selectItem itemValue="Desfavoravel" itemLabel="Desfavoravel"></f:selectItem>
+                    <f:selectItem itemValue="Favoravel" itemLabel="Favoravel"></f:selectItem>
+                    
+                    
+                </p:selectOneMenu>
+                
+                
+                
+                <h:outputLabel  for="" value="Resultado complementação" ></h:outputLabel>
+                <h:inputTextarea value="#{ineditoBean.entidade.obsComplementar}"  style="color: blue;width: auto" />
+                
+                <h:outputLabel  for="" value="Resultado Tratamento" ></h:outputLabel>
+                <h:inputTextarea value="#{ineditoBean.entidade.obsTratar}"  style="color: blue;width: auto" />
+              
+                
+                <h:outputLabel  for="" value="Agência detentora do depósito" ></h:outputLabel>
+                <h:inputText value="#{ineditoBean.entidade.dependenciaDtra}"  style="color: blue;width: auto" />
+                
+                
+            </p:panelGrid>
+            
+            
+            
+            
+            
+            <p:dataTable paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} ineditos )" id="tblVolumetria" scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"   style="font-size: 10pt;width: auto"   value="#{ineditoBean.entidades}" var="i"  rows="1500" paginator="true" rendered="#{ineditoBean.isBuscar()}">
+                <p:column  width="auto" >
+                    <p:commandButton  style="width: 80px"   value="Editar" action="#{ineditoBean.editar(i)}" update="@form"> </p:commandButton>  
+                    <p:commandButton   style="width:80px"   value="Excluir" action="#{ineditoBean.deletar(i)}" rendered="#{funcionarioBean.isCargoGerencial()}" update="@form"> </p:commandButton>  
+                     
+
+                </p:column>
+               
+
+
+               
+                
+                
+                <p:column  headerText="Npj" sortBy="#{i.npj}" filterBy="#{i.npj}" filterMatchMode="contains" >
+                    <h:outputText  value="#{i.npj}"></h:outputText>
+
+                </p:column>
+                
+                
+                
+                <p:column  headerText="Variação " sortBy="#{i.variacaoNpj}" >
+                    <h:outputText   value="#{i.variacaoNpj}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Conta depositária " sortBy="#{i.contaDepositaria}" filterBy="#{i.contaDepositaria}" filterMatchMode="contains" >
+                    <h:outputText   value="#{i.contaDepositaria}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Valor resgate " sortBy="#{i.vlRsgt}" >
+                    <h:outputText   value="#{i.vlRsgt}">
+                     <f:convertNumber type="number"  maxFractionDigits="2" />
+                    
+                    </h:outputText>
+
+                </p:column>
+                <p:column  headerText="Ofício djo 51 " sortBy="#{i.nrOficio}" >
+                    <h:outputText   value="#{i.nrOficio}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Data solicitacao " sortBy="#{i.dataSolicitacao}" filterBy="#{i.dataSolicitacao}" filterMatchMode="contains" >
+                    <h:outputText   value="#{i.dataSolicitacao}">
+                        <f:convertDateTime   pattern="dd/MM/yyy" />
+                    
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                <p:column  headerText="Funcionário solicitante " sortBy="#{i.funcionarioResponsavelSolicitacao}" filterBy="#{i.funcionarioResponsavelSolicitacao}" filterMatchMode="contains" >
+                    <h:outputText   value="#{i.funcionarioResponsavelSolicitacao}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column  headerText="Tipo de destinação " sortBy="#{i.tipoDestinacao}" filterBy="#{i.tipoDestinacao}" filterMatchMode="contains" >
+                    <h:outputText   value="#{i.tipoDestinacao}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Resultado complementação dep" sortBy="#{i.obsComplementar}" filterBy="#{i.obsComplementar}" filterMatchMode="contains">
+                    <h:outputText   value="#{i.obsComplementar}"></h:outputText>
+
+                </p:column>
+                
+                <p:column  headerText="Resultado do tratamento" sortBy="#{i.obsTratar}" filterBy="#{i.obsTratar}" filterMatchMode="contains">
+                    <h:outputText   value="#{i.obsTratar}"></h:outputText>
+
+                </p:column>
+                
+                
+                
+                <p:column  headerText="Agencia Detentora do depósito" sortBy="#{i.dependenciaDtra}">
+                    <h:outputText   value="#{i.dependenciaDtra}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column  headerText="Saldo Portal" sortBy="#{i.saldoPortal}">
+                    <h:outputText   value="#{i.saldoPortal}"></h:outputText>
+
+                </p:column>
+                
+               
+                
+                
+
+            </p:dataTable>
+
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    
+
+    <h:form >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Lista de Atividades">
+            
+            
+             <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Incluir nova atividade" action="#{atividadeBean.novo()}" update="@form"></p:commandButton>
+                   
+                    <p:commandButton class="btn btn-success" value="Salvar" action="#{atividadeBean.salvar()}"  disabled="#{atividadeBean.isBuscar()}" update="@form"></p:commandButton>
+                    <p:commandButton class="btn btn-primary" value="Listar Atividades" action="#{atividadeBean.buscar()}" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+            <p:panelGrid columns="2" rendered="#{atividadeBean.isBuscar()== false}">
+                <h:outputLabel  for="" value="Nome da Atividade"></h:outputLabel>
+                <p:inputText  value="#{atividadeBean.entidade.nomeAtividade}" ></p:inputText>
+
+                <h:outputLabel for="" value="Código da atividade" ></h:outputLabel>
+                <p:inputText value="#{atividadeBean.entidade.codigoAtividade}" disabled="true" style="color: blue"></p:inputText>
+                
+                
+            </p:panelGrid>
+            
+            
+            
+            
+            
+            <p:dataTable    value="#{atividadeBean.entidades}" style="font-size: 10pt;width: auto" var="atividade" rendered="#{atividadeBean.isBuscar()}" rows="5" paginator="true">
+
+                <p:column >
+                    <p:commandButton   class="btn btn-primary" style="width: 180px" value="Editar" action="#{atividadeBean.editar(atividade)}" update="@form"> </p:commandButton>  
+                     
+                    <p:commandButton   class="btn btn-primary" style="width: 180px" value="Excluir" action="#{atividadeBean.deletar(atividade)}" update="@form"> </p:commandButton>  
+
+                </p:column>
+                
+
+
+
+               
+                
+                
+                <p:column headerText="Codigo da atividade" sortBy="#{atividade.codigoAtividade}">
+                     <h:outputText  value="#{atividade.codigoAtividade}"></h:outputText>
+
+                </p:column>
+                
+                
+                
+                <p:column  headerText="Nome da atividade" sortBy="#{atividade.nomeAtividade}">
+                     <h:outputText   value="#{atividade.nomeAtividade}"></h:outputText>
+
+                </p:column>
+                
+               
+                
+                
+
+            </p:dataTable>
+
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  

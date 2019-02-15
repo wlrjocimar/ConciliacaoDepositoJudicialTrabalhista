@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    
+
+    <h:form >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Lista de Atividades por funcionário">
+            
+            
+             <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Incluir nova atividade para funci" action="#{atividadeFunciBean.novo()}" rendered="#{atividadeFunciBean.isBuscar()}" update="@form"></p:commandButton>
+                   
+                    <p:commandButton class="btn btn-success" value="Salvar" action="#{atividadeFunciBean.salvar()}"  rendered="#{atividadeFunciBean.isBuscar()==false}" update="@form"></p:commandButton>
+                    <p:commandButton class="btn btn-primary" value="Listar Atividades de funci" action="#{atividadeFunciBean.buscar()}" update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+            <p:panelGrid columns="2" rendered="#{atividadeFunciBean.isBuscar()== false}">
+
+                
+                <h:outputLabel for="" value="Nome da atividade" ></h:outputLabel>
+                <p:selectOneMenu value="#{atividadeFunciBean.entidade.codigoAtividade}"     style="color: blue">
+                    <f:selectItems  value="#{atividadeBean.entidades}" var="a" itemLabel="#{a.nomeAtividade}" itemValue="#{a.codigoAtividade}" />
+                   
+                </p:selectOneMenu>
+                
+                
+                <h:outputLabel for="" value="Funcionário" ></h:outputLabel>
+                <p:selectOneMenu  filter="true" value="#{atividadeFunciBean.entidade.matricula}"     style="color: blue" disabled="#{atividadeFunciBean.isEditar()}"   filterMatchMode="contains">
+                    <f:selectItems  value="#{usuarioBean.entidades}" var="b" itemLabel="#{b.chave} - #{b.nome}"  itemValue="#{b.chave}"  /> 
+                   
+                </p:selectOneMenu>
+                
+                
+            </p:panelGrid>
+            
+            
+            
+            
+            <p:dataTable    value="#{atividadeFunciBean.entidades}" var="a" style="font-size: 10pt;width: auto"  rendered="#{atividadeFunciBean.isBuscar()}" rows="15" paginator="true">
+
+
+                <p:column >
+                    <p:commandButton   class="btn btn-primary" style="width: 180px" value="Editar" action="#{atividadeFunciBean.editar(a)}" update="@form"> </p:commandButton>  
+                     <p:commandButton   class="btn btn-primary" style="width: 180px" value="Excluir" action="#{atividadeFunciBean.deletar(a)}" update="@form"> </p:commandButton>  
+
+                </p:column>
+                
+                
+               
+                     
+
+                
+
+
+
+               
+                
+                
+               
+                
+                
+                
+                <p:column  headerText="Código da atividade" sortBy="#{a.codigoAtividade}">
+                     <h:outputText   value="#{a.codigoAtividade}"></h:outputText>
+
+                </p:column>
+               
+                <p:column  headerText="Matrícula " sortBy="#{a.matricula}">
+                     <h:outputText   value="#{a.matricula}"></h:outputText>
+
+                </p:column>
+                
+               
+                
+                
+
+            </p:dataTable>
+
+
+               
+
+
+
+        </p:fieldset>
+   
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  

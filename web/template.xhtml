@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Conciliação de Depósitos judicias</title>
+
+        <h:outputStylesheet library="css" name="template.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="gerenciar-gsv.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="funcoes.js"></h:outputScript>
+        
+    </h:head>
+
+
+
+
+
+
+
+
+
+    <h:body onload="mensagem()" >
+        <h:outputScript>
+            adicionarFavicon("resources/imagens/bb-logo.png");
+            function mensagem(){
+            var div = document.getElementById("msn");
+            div.textContent ="Início de nova  sessão: " +  getDateTime();
+            var text = div.textContent;
+
+
+
+            }
+        </h:outputScript>
+        <p:toolbar  style="background-color: #F9DD16"  >
+            <p:toolbarGroup style="height: 100px" >
+                <a href="http://cenopservicoscwb.intranet.bb.com.br/index.php"><h:graphicImage   width="50px" library="imagens" name="bb-logo.png" title="Voltar para a página do Cenop Serviços Curitiba"  ></h:graphicImage> </a>
+
+                <h3 align="right">Conciliação de  Depósitos Judiciais </h3>
+
+
+
+
+
+            </p:toolbarGroup >
+
+
+
+
+
+        </p:toolbar>
+
+
+
+        <h:form id="menu" >
+            <p:menubar  rendered="#{funcionarioBean.isNegar()==false}" >
+                <p:menuitem icon="ui-icon-home" value="Início" url="home.jsf"></p:menuitem>
+                <p:submenu label="Desconciliação DJO" icon="ui-icon-document">
+
+
+                        <p:menuitem value="Tratar conexão" url="gerenciar-desconciliacao-conexao.jsf"></p:menuitem>
+                        <p:menuitem value="Tratar retorno agência" url="gerenciar-retorno-agencia.jsf"></p:menuitem>
+                        <p:menuitem value="Tratar novas desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
+                        
+                       
+                      
+
+                   
+
+
+
+
+
+                    <p:menuitem value="Tratar Transferências" url="gerenciar-transferencia.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar Favorável" url="gerenciar-favoravel.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar inconsistências" url="gerenciar-inconsistencia.jsf"></p:menuitem>
+
+                    <p:menuitem value="Tratar Inédito manual" url="gerenciar-desconciliacao-inedito.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar pendência agência" url="gerenciar-pendencia-agencia.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar priorizados" url="gerenciar-desconciliacao_priorizado.jsf"></p:menuitem>
+                    <p:menuitem value="Pesquisar na base" url="gerenciar-desconciliacaoTotal.jsf"></p:menuitem>
+
+                </p:submenu>
+
+                <p:submenu label="Gerencial" icon="ui-icon-document" rendered="#{funcionarioBean.isCargoGerencial()}">
+
+
+                    <p:menuitem value="Consultar e Incluir atividades" url="gerenciar-atividades.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar e Incluir tratamentos" url="gerenciar-grupoTratamento.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar e Incluir Status" url="gerenciar-grupoStatus.jsf"></p:menuitem>
+                    <p:menuitem value="Definir atividade para funcionario" url="gerenciar-atividadeFunci.jsf"></p:menuitem>
+                    <p:menuitem value="Relatório diário" url="gerenciar-historico-desconciliacao.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar Base" url="gerenciar-desconciliacaoTotal.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar não tratados" url="gerenciar-nao-tradados.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar série histórica" url="gerenciar-serie-historica.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar Histórico tratamento" url="gerenciar-historico-desconciliacao-volumetria.jsf"></p:menuitem>
+                    <p:menuitem value="Gerar Volumetria" url="gerenciar-volumetria.jsf"></p:menuitem>
+                    <p:menuitem value="Gerar orçado/realizado" url="gerenciar-orcado-realizado.jsf"></p:menuitem>
+                    <p:menuitem value="Consultar Conexão" url="gerenciar-conexao.jsf"></p:menuitem>
+                    <p:submenu label="Relatórios Spotfire" icon="ui-icon-document" rendered="#{funcionarioBean.isCargoGerencial()}">
+                        <p:menuitem value="Relatórios Histórico Funcionário" url="https://bam.bb.com.br/spotfire/wp/OpenAnalysis?file=/%5BP%C3%BAblica%5D/VISIN/UOP/Cenop/Cenop%20Servi%C3%A7os%20Curitiba/REJUD/IL_rejud_view_spf_desconciliacao_historico_djo_paj" target="_blank" ></p:menuitem>
+                        <p:menuitem value="Base Desconciliação Dia"  url="https://bam.bb.com.br/spotfire/wp/OpenAnalysis?file=/%5BP%C3%BAblica%5D/VISIN/UOP/Cenop/Cenop%20Servi%C3%A7os%20Curitiba/REJUD/ANALISE_rejud_desconciliacao_diaria_djo_paj"  target="_blank" ></p:menuitem>
+                        <p:menuitem value="Resumo desconciliação atual"  url="https://bam.bb.com.br/spotfire/wp/ViewAnalysis.aspx?file=/%5BP%C3%BAblica%5D/VISIN/UOP/Cenop/Cenop%20Servi%C3%A7os%20Curitiba/REJUD/FATO.rejud.view_desconciliacao_diaria_djo_paj/ANALISE_rejud_desconciliacao_diaria_djo_paj"  target="_blank" ></p:menuitem>
+                    </p:submenu>   
+
+                </p:submenu>
+
+
+                <p:submenu label="GSV" icon="ui-icon-folder-open">
+
+
+                    <p:menuitem value="Pesquisar protocolos Rejud" url="gerenciar-gsv.jsf"></p:menuitem>
+
+
+
+                </p:submenu>
+                <p:submenu label="Arquivos" icon="ui-icon-folder-open" rendered="#{funcionarioBean.isCargoGerencial()}">
+
+
+                    <p:menuitem value="Carregar Arquivos" url="gerenciar-upload.jsf" ></p:menuitem>
+
+
+
+                </p:submenu>
+
+                <p:submenu label="Relatório individual" icon="ui-icon-folder-open">
+
+
+                    <p:menuitem value="Tratamento individual DJO" url="gerenciar-historico-individual-desconciliacao.jsf" ></p:menuitem>
+
+
+
+                </p:submenu>
+
+
+
+                <p:submenu label="Efetivação" icon="">
+
+
+                    <p:menuitem value="Catalogar efetivação" url="gerenciar-efetivacao.jsf" icon="ui-icon ui-icon-pencil"></p:menuitem>
+
+
+
+                </p:submenu>
+                
+                <p:submenu label="Ferramentas" icon="">
+
+
+                    <p:menuitem value="Solicitar tratamento de inédito" url="gerenciar-inedito.jsf" icon="ui-icon ui-icon-pencil"></p:menuitem>
+
+
+
+                </p:submenu>
+
+
+
+
+
+            </p:menubar>
+        </h:form>
+
+        <hr/>
+        <ui:insert ></ui:insert>
+
+        <br/><h:outputText id="msn" style="margin-right: 10px " ></h:outputText>
+
+        <br/><h:outputText value="Info funcionário atual:" style="margin-right: 10px " ></h:outputText>
+        <br/><h:outputText value="Nome:#{funcionarioBean.chave} - #{funcionarioBean.nomeInteiro}" style="margin-right: 10px " ></h:outputText>
+        <br/><h:outputText value="Gerente:#{funcionarioBean.gerente}" style="margin-right: 10px " ></h:outputText>
+        <br/><h:outputText value="Uor habitual : #{funcionarioBean.uor}" style="margin-right: 10px " ></h:outputText>
+        <br/><h:outputText value="Função : #{funcionarioBean.funcao}" style="margin-right: 10px " ></h:outputText>
+        <br/><h:outputText value="Código da função : #{funcionarioBean.codigoFuncao()}" style="margin-right: 10px " ></h:outputText>
+
+    </h:body>
+</html>
+

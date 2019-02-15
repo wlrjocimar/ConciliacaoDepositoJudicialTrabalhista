@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    
+
+    <h:form >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Lista de tratamentos">
+            
+            
+             <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Incluir novo tratamento" action="#{grupoTratamentoBean.novo()}" rendered="#{grupoTratamentoBean.isBuscar()}" update="@form"></p:commandButton>
+                   
+                    <p:commandButton class="btn btn-success" value="Salvar" action="#{grupoTratamentoBean.salvar()}"  rendered="#{grupoTratamentoBean.isBuscar()==false}" update="@form"></p:commandButton>
+                    <p:commandButton class="btn btn-primary" value="Listar tratamentos" action="#{grupoTratamentoBean.buscar()}"  update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+            <p:panelGrid columns="2" rendered="#{grupoTratamentoBean.isBuscar()== false}">
+                <h:outputLabel  for="" value="Nome do tratamento"></h:outputLabel>
+                <p:inputText  value="#{grupoTratamentoBean.entidade.nomeTratamento}" size="100"></p:inputText>
+
+                <h:outputLabel for="" value="Código do tratamento" ></h:outputLabel>
+                <p:inputText value="#{grupoTratamentoBean.entidade.codigoTratamento}" disabled="true" style="color: blue" size="10"></p:inputText>
+                
+                
+            </p:panelGrid>
+            
+            
+            
+            
+            
+            <p:dataTable paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} tratamentos cadastrados )"  scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500" style="font-size: 10pt;width: auto"   value="#{grupoTratamentoBean.entidades}" var="tratamento" rendered="#{grupoTratamentoBean.isBuscar()}" rows="100" paginator="true">
+
+                <p:column  style="width:auto" >
+                    <p:commandButton     value="Editar" action="#{grupoTratamentoBean.editar(tratamento)}" update="@form"> </p:commandButton>  
+                    <p:commandButton     value="Excluir" action="#{grupoTratamentoBean.deletar(tratamento)}" update="@form"> </p:commandButton>  
+                     
+
+                </p:column>
+               
+
+
+               
+                
+                
+                <p:column  headerText="Codigo do tratamento" sortBy="#{tratamento.codigoTratamento}">
+                    <h:outputText  value="#{tratamento.codigoTratamento}"></h:outputText>
+
+                </p:column>
+                
+                
+                
+                <p:column  headerText="Nome  do tratamento" sortBy="#{tratamento.nomeTratamento}"   filterBy="#{tratamento.nomeTratamento}" filterMatchMode="contains" >
+                    <h:outputText   value="#{tratamento.nomeTratamento}"></h:outputText>
+
+                </p:column>
+                
+               
+                
+                
+
+            </p:dataTable>
+
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  

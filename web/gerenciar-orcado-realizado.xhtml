@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml">
+
+
+
+    <h:form id="frmPrincipal" rendered="#{funcionarioBean.isPermitir()}" >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Base orçado/realizado">
+
+
+            <p:toolbar rendered="#{orcadoBean.isEditar()}" >
+                <p:toolbarGroup >
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+           <p:toolbar  >
+                <p:toolbarGroup >
+
+
+                    <p:commandButton  value="Atualizar página"  actionListener="#{orcadoBean.buscar()}"   rendered="#{orcadoBean.isBuscar()}"  update=":frmPrincipal"></p:commandButton>
+                </p:toolbarGroup>
+
+            </p:toolbar>
+           
+
+
+
+
+            <p:toolbar rendered="#{orcadoBean.isBuscar()}" >
+                <p:toolbarGroup>
+                    
+                        <h:commandLink>
+                            <h:graphicImage  width="50px" library="imagens" name="excel.png" title="Exportar para Excel" ></h:graphicImage>
+
+                            <p:dataExporter type="xls" target="tbOrcado" fileName="orcadoRealizado" />
+                        </h:commandLink>
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+            
+           
+
+
+
+            <p:dataTable id="tbOrcado" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} desconciliações )" scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"   style="font-size: 10pt;width: auto"   value="#{orcadoBean.entidades}" var="d" rendered="#{orcadoBean.isBuscar()}" rows="500" paginator="true">
+
+
+
+
+
+
+
+                <p:column   headerText="Npj" sortBy="#{d.npj}" filterBy="#{d.npj}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.npj}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column style="width: 25px" headerText="Var" sortBy="#{d.variacaoNpj}" filterBy="#{d.variacaoNpj}" filterStyle="max-width:15px; min-width:15px" filterMatchMode="contains">
+                    <h:outputText value="#{d.variacaoNpj}"></h:outputText>
+
+                </p:column>
+
+
+
+
+
+
+                <p:column headerText="Conta depositária" sortBy="#{d.contaDepositaria}" filterBy="#{d.contaDepositaria}" filterMatchMode="contains">
+                    <h:outputText   value="#{d.contaDepositaria}"></h:outputText>
+
+                </p:column>
+
+               
+
+
+                <p:column headerText="Valor da desconciliação" sortBy="#{d.valorDesconciliacao}">
+                    <h:outputText   value="#{d.valorDesconciliacao}">
+                      <f:convertNumber type="number"  maxFractionDigits="2" />
+                    </h:outputText>
+
+                </p:column>
+
+
+
+
+                <p:column headerText="Status" sortBy="#{d.situacao}" filterBy="#{d.situacao}" filterMatchMode="contains">
+                    <h:outputText   value="#{d.situacao}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column headerText="Complemento Status" sortBy="#{d.nomeTratamento}" filterBy="#{d.nomeTratamento}" filterMatchMode="contains">
+                    <h:outputText   value="#{d.nomeTratamento}"></h:outputText>
+
+                </p:column>
+
+                
+                
+                
+                
+                <p:column headerText="Data entrada banco de dados" sortBy="#{d.dataEntradaBd}" filterBy="#{d.dataEntradaBd}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.dataEntradaBd}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+                
+                <p:column headerText="Dias desconciliado" sortBy="#{d.diasDesconciliado}" filterBy="#{d.diasDesconciliado}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.diasDesconciliado}">
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                <p:column headerText="Data  primeiro Tratamento" sortBy="#{d.dataPrimeiroTratamento}" filterBy="#{d.dataPrimeiroTratamento}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.dataPrimeiroTratamento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                 <p:column headerText="Data de tratamento atual" sortBy="#{d.dataSituacao}" filterBy="#{d.dataSituacao}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.dataSituacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+
+                <p:column headerText="Data da desconciliacao Diris" sortBy="#{d.dataDesconciliacao}" filterBy="#{d.dataDesconciliacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.dataDesconciliacao}"    >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+               
+                
+                
+                
+              
+
+
+               
+
+                
+                
+                 <p:column headerText="Funcionario responsável último tratamento" sortBy="#{d.funcionarioResponsavelSituacao}" filterBy="#{d.funcionarioResponsavelSituacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.funcionarioResponsavelSituacao}">
+                        
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                 <p:column headerText="Funcionario Atual" sortBy="#{d.funcionarioAtual}" filterBy="#{d.funcionarioAtual}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.funcionarioAtual}">
+                        
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                 <p:column headerText="Tratado no Prazo?" sortBy="#{d.tratadoPrazo}" filterBy="#{d.tratadoPrazo}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.tratadoPrazo}">
+                        
+                    </h:outputText>
+
+                </p:column>
+               
+
+
+                
+
+
+
+
+
+            </p:dataTable>
+
+            
+            
+            
+            
+            
+
+
+
+
+
+        </p:fieldset>
+
+
+
+        
+    </h:form>
+    
+    
+        <p:dialog modal="true" width="1000px" height="200px" widgetVar="dlg" header="Lista de resgates">
+
+            <p:dataTable style="font-size: 7pt" scrollWidth="auto" scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="80"  id="tbLevantamentos"      value="#{solicitacaoLevantamentoBean.levantamentos}" var="levantamento" >
+
+
+
+
+                <p:column headerText="Numero do npj" sortBy="#{levantamento.idNpj}">
+
+                    <h:outputText   value="#{levantamento.idNpj}"></h:outputText>
+
+                </p:column>   
+
+
+
+            </p:dataTable>
+
+
+        </p:dialog>
+   
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:decorate>  

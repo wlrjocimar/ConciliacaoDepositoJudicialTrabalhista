@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+
+
+
+    <h:form id="frmPrincipal" rendered="#{funcionarioBean.isPermitir()}" >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Desconciliações não tratadas">
+
+
+            <p:toolbar rendered="#{desconciliacaoNaoTratadaBean.isEditar()}" >
+                <p:toolbarGroup >
+
+
+                    <p:commandButton  value="Salvar" action="#{desconciliacaoNaoTratadaBean.validarParaSalvar()}" rendered="#{desconciliacaoNaoTratadaBean.isBuscar()==false}" update=":frmPrincipal"></p:commandButton>
+                    <p:commandButton  value="Voltar para lista" action="#{desconciliacaoNaoTratadaBean.buscar()}"  update=":frmPrincipal"></p:commandButton>
+                   
+                    <p:commandButton  style="width: 150px"  value="Inédito" > </p:commandButton>
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+
+           <p:toolbar  >
+                <p:toolbarGroup rendered="#{desconciliacaoNaoTratadaBean.isBuscar()}">
+
+
+                    <p:commandButton  value="Listar não tratados"  actionListener="#{desconciliacaoNaoTratadaBean.buscar()}"  update=":frmPrincipal" rendered="#{desconciliacaoNaoTratadaBean.isBuscar()==false}" ></p:commandButton>
+                    <p:commandButton  value="Atualizar página"  actionListener="#{desconciliacaoNaoTratadaBean.buscar()}"  update=":frmPrincipal" ></p:commandButton>
+                </p:toolbarGroup>
+
+            </p:toolbar>
+
+
+
+            <p:panelGrid columns="2"  id ="painel" rendered="#{desconciliacaoNaoTratadaBean.isBuscar()== false}">
+                
+                
+                
+                  <h:outputLabel for="" value="STATUS"></h:outputLabel>
+
+
+                <p:selectOneMenu   immediate="true"   id ="status"  value="#{desconciliacaoNaoTratadaBean.entidade.codigoSituacao}" >
+                    <f:selectItem noSelectionOption="true" itemLabel="Selecione uma opção" itemValue=""/>
+
+                    <f:selectItems  value="#{grupoStatusBean.entidades}" var="a" itemValue="#{a.codigoStatus}" itemLabel="#{a.nomeStatus}"></f:selectItems>
+
+
+
+                </p:selectOneMenu >
+
+
+
+
+                <h:outputLabel for="" value="Tipo de tratamento" rendered="#{grupoTratamentoBean.isTratamento()}" ></h:outputLabel>
+
+                <p:selectOneMenu filter="true"  filterMatchMode="contains"   id="selectObs" value="#{desconciliacaoNaoTratadaBean.entidade.codigoTratamento}" >
+                    <f:selectItem  itemLabel="Selecione uma opção" itemValue="0"/>
+                    <f:selectItems  value="#{grupoTratamentoBean.entidades}" var="a" itemValue="#{a.codigoTratamento}" itemLabel="#{a.nomeTratamento}"></f:selectItems>
+
+                </p:selectOneMenu>
+
+                
+                
+                <h:outputLabel for="" value="NPJ"></h:outputLabel>
+                <h:outputLabel  value="#{desconciliacaoNaoTratadaBean.entidade.npj}"   style="color: blue"/>
+                
+                <h:outputLabel for="" value="Número da conta depositária" ></h:outputLabel>
+                <h:outputLabel value="#{desconciliacaoNaoTratadaBean.entidade.contaDepositaria}"  style="color: blue"/>
+
+                <h:outputLabel for="" value="Numero da conta controle"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.contaControle}"  disabled="true" style="color: blue"></p:inputText>
+              
+                
+                <h:outputLabel for="" value="Autor"></h:outputLabel>
+                <h:outputLabel  value="#{desconciliacaoNaoTratadaBean.entidade.autor}"   style="color: blue"/>
+                
+                <h:outputLabel for="" value="Matéria"></h:outputLabel>
+                <h:outputLabel  value="#{desconciliacaoNaoTratadaBean.entidade.materia}"   style="color: blue"/>
+                
+                
+                <h:outputLabel for="" value="Assunto"></h:outputLabel>
+                <h:outputLabel  value="#{desconciliacaoNaoTratadaBean.entidade.assunto}"   style="color: blue"/>
+
+                <h:outputLabel for="" value="Saldo da conta controle"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.saldoContaControle}"  disabled="true" style="color: blue">
+                 <f:convertNumber type="number"  maxFractionDigits="2" />
+                </p:inputText>
+
+                <h:outputLabel for="" value="Saldo conta depositária"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.saldoDeposito}"  disabled="true" style="color: blue">
+                 <f:convertNumber type="number"  maxFractionDigits="2" />
+                </p:inputText>
+
+                <h:outputLabel for="" value="Valor da desconciliação"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.valorDesconciliacao}"  disabled="true" style="color: blue">
+                 <f:convertNumber type="number"  maxFractionDigits="2" />
+                </p:inputText>
+
+                <h:outputLabel for="" value="Data do último tratamento"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.dataSituacao}"  disabled="true" style="color: blue">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:inputText>
+                
+                <h:outputLabel for="" value="Data desconciliacao"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.dataDesconciliacao}"  disabled="true" style="color: blue">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:inputText>
+                
+                
+                
+                
+                
+                
+                
+                <h:outputLabel for="" value="Data entrada"></h:outputLabel>
+                <p:inputText  value="#{desconciliacaoNaoTratadaBean.entidade.dataEntradaBd}"  disabled="true" style="color: blue">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:inputText>
+                
+                
+                <h:outputLabel for="" value="Observação"></h:outputLabel>
+                <h:inputTextarea   value="#{desconciliacaoNaoTratadaBean.entidade.obsLivre}"   style="color: blue">
+                </h:inputTextarea>
+                  
+                    
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </p:panelGrid>
+
+
+            <p:toolbar rendered="#{desconciliacaoNaoTratadaBean.isBuscar()}" >
+                <p:toolbarGroup>
+                    
+                        <h:commandLink>
+                            <h:graphicImage  width="50px" library="imagens" name="excel.png" title="Exportar para Excel" ></h:graphicImage>
+
+                            <p:dataExporter type="csv" target="tblNaoTratados" fileName="tblNaoTratados" />
+                        </h:commandLink>
+
+                </p:toolbarGroup>
+
+            </p:toolbar>
+            
+            
+           
+
+
+
+            <p:dataTable id="tblNaoTratados" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} desconciliações )" scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"   style="font-size: 10pt;width: auto"   value="#{desconciliacaoNaoTratadaBean.entidades}" var="d" rendered="#{desconciliacaoNaoTratadaBean.isBuscar()}" rows="500" paginator="true">
+
+                <p:column exportable="false" style="width: 150px">
+                    <p:commandButton    style="width: 150px" value="Tratar" action="#{desconciliacaoNaoTratadaBean.verAvocacao(d)}"  update=":frmPrincipal"> </p:commandButton>  
+
+                     <p:commandButton  style="width: 150px"  value="Resgates" action="#{solicitacaoLevantamentoBean.buscarPorParametro(d)}" onclick="PF('dlg').show();" update=":tbLevantamentos"> </p:commandButton> 
+
+                </p:column>
+
+
+
+
+
+
+                <p:column   headerText="Npj" sortBy="#{d.npj}"    filterBy="#{d.npj}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.npj}"></h:outputText>
+
+                </p:column>
+
+
+
+
+
+
+                <p:column headerText="Conta depositária" sortBy="#{d.contaDepositaria}" filterBy="#{d.contaDepositaria}" filterMatchMode="contains">
+                    <h:outputText   value="#{d.contaDepositaria}"></h:outputText>
+
+                </p:column>
+
+               
+
+
+                <p:column headerText="Valor da desconciliação" sortBy="#{d.valorDesconciliacao}">
+                    <h:outputText   value="#{d.valorDesconciliacao}">
+                    
+                     <f:convertNumber type="number"  maxFractionDigits="2" />
+                    </h:outputText>
+
+                </p:column>
+
+
+
+
+                <p:column headerText="Status" sortBy="#{d.situacao}" filterBy="#{d.situacao}" filterMatchMode="contains">
+                    <h:outputText   value="#{d.situacao}"></h:outputText>
+
+                </p:column>
+                
+                
+                <p:column headerText="Complemento Status" sortBy="#{d.nomeTratamento}" filterBy="#{d.nomeTratamento}" filterMatchMode="contains">
+                    <h:outputText   value="#{d.nomeTratamento}"></h:outputText>
+
+                </p:column>
+
+                
+                
+                  <p:column headerText="Observação" sortBy="#{d.obsLivre}" filterBy="#{d.obsLivre}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.obsLivre}">
+                      
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                <p:column headerText="Data entrada banco de dados" sortBy="#{d.dataEntradaBd}" filterBy="#{d.dataEntradaBd}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.dataEntradaBd}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+                <p:column headerText="Dias desconciliado" sortBy="#{d.diasDesconciliado}" filterBy="#{d.diasDesconciliado}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.diasDesconciliado}">
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                 <p:column headerText="Data Tratamento" sortBy="#{d.dataSituacao}" filterBy="#{d.dataSituacao}" filterMatchMode="contains">
+                    <h:outputText  value="#{d.dataSituacao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+
+                <p:column headerText="Data da desconciliacao Diris" sortBy="#{d.dataDesconciliacao}" filterBy="#{d.dataDesconciliacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.dataDesconciliacao}"    >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+
+                </p:column>
+               
+                
+                
+                
+              
+
+
+               
+
+                
+                
+                 <p:column headerText="Funcionario responsável" sortBy="#{d.funcionarioResponsavelSituacao}" filterBy="#{d.funcionarioResponsavelSituacao}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.funcionarioResponsavelSituacao}">
+                        
+                    </h:outputText>
+
+                </p:column>
+                
+                
+                 <p:column headerText="Funcionario Atual" sortBy="#{d.funcionarioAtual}" filterBy="#{d.funcionarioAtual}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.funcionarioAtual}">
+                        
+                    </h:outputText>
+
+                </p:column>
+                
+                 <p:column headerText="Registro travado?" sortBy="#{d.avocado}" filterBy="#{d.avocado}" filterMatchMode="contains" >
+                    <h:outputText  value="#{d.avocado}">
+                        
+                    </h:outputText>
+
+                </p:column>
+               
+
+
+                
+
+
+
+
+
+            </p:dataTable>
+
+            
+            
+            
+            
+            
+
+
+
+
+
+        </p:fieldset>
+
+
+
+        
+    </h:form>
+    
+    
+    
+        <p:dialog modal="true" width="1000px" height="200px" widgetVar="dlg" header="Lista de resgates">
+
+            <p:dataTable style="font-size: 7pt" scrollWidth="auto" scrollRows="10" scrollable="true" liveScroll="true" scrollHeight="80"  id="tbLevantamentos"      value="#{solicitacaoLevantamentoBean.levantamentos}" var="levantamento" >
+
+
+
+
+                <p:column headerText="Numero do npj" sortBy="#{levantamento.npj}">
+
+                    <h:outputFormat   value="#{levantamento.npj}"></h:outputFormat>
+
+                </p:column>   
+
+
+
+                <p:column headerText="Conta Judicial" sortBy="#{levantamento.contaDepositaria}">
+
+                    <h:outputFormat   value="#{levantamento.contaDepositaria}"></h:outputFormat>
+
+
+
+                </p:column>
+
+
+
+
+                <p:column headerText="Valor do Resgate" sortBy="#{levantamento.vlRsgt}">
+
+                    <h:outputFormat   value="#{levantamento.vlRsgt}"></h:outputFormat>
+
+
+
+                </p:column>
+
+                <p:column headerText="Numero do ofício" sortBy="#{levantamento.numeroOficio}">
+
+                    <h:outputFormat   value="#{levantamento.numeroOficio}"></h:outputFormat>
+
+
+
+                </p:column>
+
+
+                <p:column headerText="Data resgate DJO" sortBy="#{levantamento.dataResgateDjo}">
+
+                    <h:outputFormat   value="#{levantamento.dataResgateDjo}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputFormat>
+
+
+
+                </p:column>
+
+
+            </p:dataTable>
+
+
+
+        </p:dialog>
+   
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ui:decorate>  

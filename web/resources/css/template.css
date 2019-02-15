@@ -1,0 +1,21 @@
+#menu {
+ font:10pt;
+}
+
+button{
+    size: 10pt;
+    
+}
+
+
+body{
+    color: black;
+    background-color: #5a6268;
+}
+
+p{
+    size: 10pt;
+}
+#tblListarTodosProtocolos{
+font-size: 10px;    
+}

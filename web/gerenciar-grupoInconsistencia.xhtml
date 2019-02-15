@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             template="template.xhtml"
+
+             >
+    
+    
+
+    <h:form >
+
+
+
+
+
+        <p:messages autoUpdate="true" showDetail="true"></p:messages>
+
+
+
+        <p:fieldset legend="Lista de inconsistencias">
+            
+            
+             <p:toolbar >
+                <p:toolbarGroup>
+
+                    <p:commandButton value="Incluir nova inconsistência" action="#{grupoInconsistenciaBean.novo()}" rendered="#{grupoInconsistenciaBean.isBuscar()}" update="@form"></p:commandButton>
+                   
+                    <p:commandButton class="btn btn-success" value="Salvar" action="#{grupoInconsistenciaBean.salvar()}"  rendered="#{grupoInconsistenciaBean.isBuscar()==false}" update="@form"></p:commandButton>
+                    <p:commandButton class="btn btn-primary" value="Listar inconsistencias" action="#{grupoInconsistenciaBean.buscar()}"  update="@form"></p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+
+
+            <p:panelGrid columns="2" rendered="#{grupoInconsistenciaBean.isBuscar()== false}">
+                <h:outputLabel  for="" value="Nome da inconsistência"></h:outputLabel>
+                <p:inputText  value="#{grupoInconsistenciaBean.entidade.nomeInconsistencia}" size="100"></p:inputText>
+
+                <h:outputLabel for="" value="Código da inconsistência" ></h:outputLabel>
+                <p:inputText value="#{grupoInconsistenciaBean.entidade.codigoInconsistencia}" disabled="true" style="color: blue" size="10"></p:inputText>
+                
+                
+            </p:panelGrid>
+            
+            
+            
+            
+            
+            <p:dataTable  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" currentPageReportTemplate="({totalRecords} desconciliações )"  scrollWidth="auto" scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="500"    value="#{grupoInconsistenciaBean.entidades}" var="inconsistencia" rendered="#{grupoInconsistenciaBean.isBuscar()}" rows="15" paginator="true">
+
+                <p:column  >
+                    <p:commandButton    style="width: 180px" value="Editar" action="#{grupoInconsistenciaBean.editar(inconsistencia)}" update="@form"> </p:commandButton>  
+                    <p:commandButton    style="width: 180px" value="Excluir" action="#{grupoInconsistenciaBean.deletar(inconsistencia)}" update="@form"> </p:commandButton>  
+                     
+
+                </p:column>
+               
+
+
+               
+                
+                
+                <p:column  headerText="Codigo da inconsistência" sortBy="#{inconsistencia.codigoInconsistencia}">
+                    <h:outputText  value="#{inconsistencia.codigoInconsistencia}"></h:outputText>
+
+                </p:column>
+                
+                
+                
+                <p:column  headerText="Nome da inconsistencia" sortBy="#{inconsistencia.nomeInconsistencia}" >
+                    <h:outputText   value="#{inconsistencia.nomeInconsistencia}"></h:outputText>
+
+                </p:column>
+                
+               
+                
+                
+
+            </p:dataTable>
+
+
+
+
+
+
+        </p:fieldset>
+    </h:form>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</ui:decorate>  
