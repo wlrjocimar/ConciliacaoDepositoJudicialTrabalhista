@@ -28,7 +28,7 @@ public class GrupoTratamentoDAO  implements  CrudDAO<GrupoTratamento>{
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getCodigoTratamento()== null) {
                 sql = "INSERT INTO tb_grupo_tratamento (NOME_TRATAMENTO) VALUES (?)";
@@ -56,7 +56,7 @@ public class GrupoTratamentoDAO  implements  CrudDAO<GrupoTratamento>{
     @Override
     public void deletar(GrupoTratamento entidade) throws ErroSistema {
          try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "delete from tb_grupo_tratamento where CODIGO_TRATAMENTO = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigoTratamento());
@@ -83,7 +83,7 @@ public class GrupoTratamentoDAO  implements  CrudDAO<GrupoTratamento>{
         List<GrupoTratamento> grupoTratamentos;
         
          try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_grupo_tratamento order by NOME_TRATAMENTO ASC";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

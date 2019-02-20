@@ -44,7 +44,7 @@ public class UsuarioDAO implements  CrudDAO<Usuario>{
         
         
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT A.*,B.cd_area,C.Quadro, spf_dados.nm_gerente_funci(A.matriculaF, '4750') AS gerente FROM arh.v_funcionarios A LEFT JOIN gestao_equipes.tb_uor_area B ON A.UOR_Posicao=B.uor LEFT JOIN spf_dados.tb_arh_base C ON A.matriculaF = C.tx_mtc_fun \n" +
 "					WHERE B.uor=286409 or B.uor = 287339 or B.uor = 286399 or B.uor = 79771  or B.uor =286369";
             PreparedStatement stmt = con.prepareStatement(sql);

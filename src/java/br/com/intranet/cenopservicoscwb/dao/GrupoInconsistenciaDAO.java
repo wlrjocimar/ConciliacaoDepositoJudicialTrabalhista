@@ -27,7 +27,7 @@ public class GrupoInconsistenciaDAO implements CrudDAO<GrupoInconsistencia>{
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getCodigoInconsistencia() == null) {
                 sql = "INSERT INTO tb_grupo_inconsistencia (NOME_INCONSISTENCIA) VALUES (?)";
@@ -64,7 +64,7 @@ public class GrupoInconsistenciaDAO implements CrudDAO<GrupoInconsistencia>{
         
         
          try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_grupo_inconsistencia";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

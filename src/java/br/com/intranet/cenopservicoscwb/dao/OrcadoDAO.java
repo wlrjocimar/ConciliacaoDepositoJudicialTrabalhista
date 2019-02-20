@@ -55,7 +55,7 @@ public class OrcadoDAO implements  CrudDAO<Orcado>{
     @Override
     public List<Orcado> buscar() throws ErroSistema {
     try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_orcado_realizado_desconciliacao_djo_paj";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

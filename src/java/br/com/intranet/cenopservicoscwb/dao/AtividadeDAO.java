@@ -27,7 +27,7 @@ public class AtividadeDAO implements  CrudDAO<Atividade>{
      try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getCodigoAtividade()== null) {
                 sql = "INSERT INTO tb_atividade (NOME_ATIVIDADE) VALUES (?)";
@@ -70,7 +70,7 @@ public class AtividadeDAO implements  CrudDAO<Atividade>{
 
                 
           try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "delete from tb_atividade where CODIGO_ATIVIDADE = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigoAtividade());
@@ -92,7 +92,7 @@ public class AtividadeDAO implements  CrudDAO<Atividade>{
     public List<Atividade> buscar() throws ErroSistema {
        
     try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_atividade";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

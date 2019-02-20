@@ -56,8 +56,8 @@ public class VolumetriaDAO implements CrudDAO<Volumetria> {
         
          Volumetria volumetria = null;
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
-            String sql = "SELECT * FROM rejud.view_volumetria";
+            Connection con = ConnectionFactory.conectar("retab");
+            String sql = "SELECT * FROM retab.view_volumetria";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Volumetria> listaTratadosVolumetria = new ArrayList<>();

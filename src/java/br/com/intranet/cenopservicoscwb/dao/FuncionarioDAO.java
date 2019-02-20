@@ -22,7 +22,7 @@ public class FuncionarioDAO implements  CrudDAO<Funcionario>{
         
         
         
-//        Connection con = ConnectionFactory.conectar("rejud");
+//        Connection con = ConnectionFactory.conectar("retab");
 //        Statement busca = con.createStatement();
 //        String sql = "SELECT A.*,B.cd_area,C.Quadro, spf_dados.nm_gerente_funci(A.matriculaF, '4750') AS gerente FROM arh.v_funcionarios A " +
 //                        "LEFT JOIN gestao_equipes.tb_uor_area B " +

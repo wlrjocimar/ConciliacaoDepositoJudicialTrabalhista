@@ -54,7 +54,7 @@ int qtdReg =  0;
 
         Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_historico_desconciliacao_djo_paj WHERE FUNCIONARIO_RESPONSAVEL_SITUACAO  LIKE  '%'  '" + usuario.getChave() + "' '%' ";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

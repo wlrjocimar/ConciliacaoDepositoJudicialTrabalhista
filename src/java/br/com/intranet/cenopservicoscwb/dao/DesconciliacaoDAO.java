@@ -45,7 +45,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getDataPrimeiroTratamento() == null) {
                 sql = "UPDATE tb_desconciliacao_djo_paj set NPJ=?, CONTA_CONTROLE=? , CONTA_DEPOSITARIA=? , SALDO_CONTA_CONTROLE=? , SALDO_DEPOSITO=?"
@@ -140,7 +140,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_orcado_realizado_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,SITUACAO,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,"
                     + "DATA_DESCONCILIACAO,TRATADO_PRAZO,SALDO_DEPOSITO,DATA_SITUACAO,DATA_RETORNO_AGENCIA,"
@@ -222,7 +222,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO) VALUES (?,?,?,?,?,?)";
             stmt = con.prepareStatement(sql);
@@ -254,7 +254,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
 
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             stmt = con.prepareStatement(sql);
 
@@ -279,7 +279,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_temporaria_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO) VALUES (?,?,?,?,?,?)";
             stmt = con.prepareStatement(sql);
@@ -328,8 +328,8 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         
          Desconciliacao desconciliacao = null;
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
-            String sql = "SELECT * FROM rejud.tb_desconciliacao_djo_paj where  (AVOCADO = '' OR AVOCADO IS NULL OR( AVOCADO = 'SIM' AND FUNCIONARIO_ATUAL =  '" + usuario.getChave() + "' ) ) AND (SITUACAO = '' OR SITUACAO IS NULL OR SITUACAO ='INEDITO TRATADO' )  ORDER BY ABS(VALOR_DESCONCILIACAO)DESC LIMIT 1";
+            Connection con = ConnectionFactory.conectar("retab");
+            String sql = "SELECT * FROM retab.tb_desconciliacao_djo_paj where  (AVOCADO = '' OR AVOCADO IS NULL OR( AVOCADO = 'SIM' AND FUNCIONARIO_ATUAL =  '" + usuario.getChave() + "' ) ) AND (SITUACAO = '' OR SITUACAO IS NULL OR SITUACAO ='INEDITO TRATADO' )  ORDER BY ABS(VALOR_DESCONCILIACAO)DESC LIMIT 1";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Desconciliacao> desconciliacoes = new ArrayList<>();
@@ -392,7 +392,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_historico_desconciliacao_djo_paj (CODIGO_DESCONCILIACAO,NPJ,VARIACAO_NPJ,CONTA_CONTROLE,CONTA_DEPOSITARIA,SALDO_CONTA_CONTROLE,"
                     + "SALDO_DEPOSITO,VALOR_DESCONCILIACAO,SITUACAO,DATA_SITUACAO,FUNCIONARIO_RESPONSAVEL_SITUACAO,NOME_TRATAMENTO,DATA_DESCONCILIACAO,DIAS_DESCONCILIADO,DATA_ENTRADA_BD,MES_TRATAMENTO,CODIGO_FUNCAO,UOR_LOCALIZACAO,CODIGO_TAREFA"
@@ -455,7 +455,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "UPDATE tb_desconciliacao_djo_paj set AVOCADO=?, DATA_AVOCACAO=?, FUNCIONARIO_ATUAL=? where CODIGO_DESCONCILIACAO=?";
             stmt = con.prepareStatement(sql);
@@ -493,7 +493,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         int numeroRegistro = 0;
 
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_desconciliacao_djo_paj where (AVOCADO = 'SIM' AND CODIGO_DESCONCILIACAO =? and FUNCIONARIO_ATUAL <> ? )";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigoDesconciliacao());
@@ -546,9 +546,9 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
 
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
-            sql = "truncate rejud.tb_temporaria_desconciliacao_djo_paj";
+            sql = "truncate retab.tb_temporaria_desconciliacao_djo_paj";
             stmt = con.prepareStatement(sql);
             
             stmt.execute();
@@ -630,26 +630,26 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
              
              
              
-             con = ConnectionFactory.conectar("rejud");
+             con = ConnectionFactory.conectar("retab");
             
             con.setAutoCommit(false);
-            String sql = "drop table if exists rejud.tb_tmp_incremento";
+            String sql = "drop table if exists retab.tb_tmp_incremento";
             PreparedStatement stmt = con.prepareStatement(sql);
            stmt.execute();
             
             
-             sql = "drop table if exists rejud.tb_tmp_concluidos";
+             sql = "drop table if exists retab.tb_tmp_concluidos";
              stmt = con.prepareStatement(sql);
             stmt.execute();
              
              
-             sql = "drop table if exists rejud.tb_falso_regularizado";
+             sql = "drop table if exists retab.tb_falso_regularizado";
              stmt = con.prepareStatement(sql);
             stmt.execute();
              
              
              
-             sql = "create table if not exists rejud.tb_tmp_incremento as select * from rejud.tb_temporaria_desconciliacao_djo_paj as t1 where not exists (select * from rejud.tb_desconciliacao_djo_paj as t2 where(t1.NPJ = t2.NPJ and t1.CONTA_DEPOSITARIA = t2.CONTA_DEPOSITARIA) )";
+             sql = "create table if not exists retab.tb_tmp_incremento as select * from retab.tb_temporaria_desconciliacao_djo_paj as t1 where not exists (select * from retab.tb_desconciliacao_djo_paj as t2 where(t1.NPJ = t2.NPJ and t1.CONTA_DEPOSITARIA = t2.CONTA_DEPOSITARIA) )";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
@@ -657,64 +657,64 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
              
              
              
-             sql = "insert into rejud.tb_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,AUTOR,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO,DATA_ENTRADA_BD)(select NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,AUTOR,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO,curdate() FROM rejud.tb_tmp_incremento)";
+             sql = "insert into retab.tb_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,AUTOR,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO,DATA_ENTRADA_BD)(select NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,AUTOR,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO,curdate() FROM retab.tb_tmp_incremento)";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
-             sql = "create table if not exists rejud.tb_tmp_concluidos as select * from rejud.tb_desconciliacao_djo_paj as t1 where not exists (select * from rejud.tb_temporaria_desconciliacao_djo_paj as t2 where(t1.NPJ = t2.NPJ and t1.CONTA_DEPOSITARIA = t2.CONTA_DEPOSITARIA) )";
+             sql = "create table if not exists retab.tb_tmp_concluidos as select * from retab.tb_desconciliacao_djo_paj as t1 where not exists (select * from retab.tb_temporaria_desconciliacao_djo_paj as t2 where(t1.NPJ = t2.NPJ and t1.CONTA_DEPOSITARIA = t2.CONTA_DEPOSITARIA) )";
              stmt = con.prepareStatement(sql);
             stmt.execute();
             
             
             
-             sql = "create table rejud.tb_falso_regularizado as (select t1.NPJ,t1.SITUACAO,t1.CONTA_DEPOSITARIA,t1.VALOR_DESCONCILIACAO,t1.DATA_SITUACAO,t1.DATA_ENTRADA_BD FROM rejud.tb_desconciliacao_djo_paj as t1 inner join rejud.tb_temporaria_desconciliacao_djo_paj as t2 on t1.NPJ = t2.NPJ AND t1.CONTA_DEPOSITARIA =t2.CONTA_DEPOSITARIA AND t1.SITUACAO = 'REGULARIZADO' AND t1.DATA_SITUACAO < subdate(curdate(),interval 1 day) )";
+             sql = "create table retab.tb_falso_regularizado as (select t1.NPJ,t1.SITUACAO,t1.CONTA_DEPOSITARIA,t1.VALOR_DESCONCILIACAO,t1.DATA_SITUACAO,t1.DATA_ENTRADA_BD FROM retab.tb_desconciliacao_djo_paj as t1 inner join retab.tb_temporaria_desconciliacao_djo_paj as t2 on t1.NPJ = t2.NPJ AND t1.CONTA_DEPOSITARIA =t2.CONTA_DEPOSITARIA AND t1.SITUACAO = 'REGULARIZADO' AND t1.DATA_SITUACAO < subdate(curdate(),interval 1 day) )";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
-             sql = " update rejud.tb_desconciliacao_djo_paj  as t1 set SITUACAO = NULL, NOME_TRATAMENTO = NULL,DATA_SITUACAO = NULL, OBS_LIVRE = 'Este registro estava marcado como regularizado, foi desmarcado automaticamente devido à persistencia da desconciliação' WHERE  exists (select * from rejud.tb_falso_regularizado as t2 where t1.NPJ=t2.NPJ and t1.CONTA_DEPOSITARIA=t2.CONTA_DEPOSITARIA and t1.SITUACAO ='REGULARIZADO')";
+             sql = " update retab.tb_desconciliacao_djo_paj  as t1 set SITUACAO = NULL, NOME_TRATAMENTO = NULL,DATA_SITUACAO = NULL, OBS_LIVRE = 'Este registro estava marcado como regularizado, foi desmarcado automaticamente devido à persistencia da desconciliação' WHERE  exists (select * from retab.tb_falso_regularizado as t2 where t1.NPJ=t2.NPJ and t1.CONTA_DEPOSITARIA=t2.CONTA_DEPOSITARIA and t1.SITUACAO ='REGULARIZADO')";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
              
-             sql = "update rejud.tb_desconciliacao_djo_paj  as t1 set SITUACAO = 'REGULARIZADO', NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA',DATA_SITUACAO = curdate(),OBS_LIVRE = 'Este registro foi anotado como regularizado automaticamente devido nao estar mais na lista de desconciliação do Portal Jurídico',FUNCIONARIO_RESPONSAVEL_SITUACAO = 'F5078775' WHERE  exists (select * from rejud.tb_tmp_concluidos as t2 where t1.NPJ=t2.NPJ and t1.CONTA_DEPOSITARIA=t2.CONTA_DEPOSITARIA and (t1.SITUACAO is null or t1.SITUACAO ='EM TRATAMENTO'))";
+             sql = "update retab.tb_desconciliacao_djo_paj  as t1 set SITUACAO = 'REGULARIZADO', NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA',DATA_SITUACAO = curdate(),OBS_LIVRE = 'Este registro foi anotado como regularizado automaticamente devido nao estar mais na lista de desconciliação do Portal Jurídico',FUNCIONARIO_RESPONSAVEL_SITUACAO = 'F5078775' WHERE  exists (select * from retab.tb_tmp_concluidos as t2 where t1.NPJ=t2.NPJ and t1.CONTA_DEPOSITARIA=t2.CONTA_DEPOSITARIA and (t1.SITUACAO is null or t1.SITUACAO ='EM TRATAMENTO'))";
              stmt = con.prepareStatement(sql);
              stmt.execute();
             
              
-             sql = "INSERT INTO rejud.tb_serie_historica_desconciliacao_dj_paj(QUANTIDADE,VALOR,DATA,VALOR_ABSOLUTO) (select count(CODIGO) AS QUANTIDADE,sum((VALOR_DESCONCILIACAO) ) AS VALOR, curdate(),SUM(ABS(VALOR_DESCONCILIACAO)) AS VLR_ABSOLUTO from rejud.tb_temporaria_desconciliacao_djo_paj)";
+             sql = "INSERT INTO retab.tb_serie_historica_desconciliacao_dj_paj(QUANTIDADE,VALOR,DATA,VALOR_ABSOLUTO) (select count(CODIGO) AS QUANTIDADE,sum((VALOR_DESCONCILIACAO) ) AS VALOR, curdate(),SUM(ABS(VALOR_DESCONCILIACAO)) AS VLR_ABSOLUTO from retab.tb_temporaria_desconciliacao_djo_paj)";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
              
-             sql = "update rejud.tb_desconciliacao_djo_paj as t1 set t1.AVOCADO = NULL  where AVOCADO = 'SIM' AND DATA_AVOCACAO < curdate()";
+             sql = "update retab.tb_desconciliacao_djo_paj as t1 set t1.AVOCADO = NULL  where AVOCADO = 'SIM' AND DATA_AVOCACAO < curdate()";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
-             sql = "update rejud.tb_desconciliacao_djo_paj as t1 set t1.SITUACAO = NULL, DATA_SITUACAO = NULL  where SITUACAO = 'INEDITO SOLICITADO' AND DATA_SITUACAO < curdate()";
+             sql = "update retab.tb_desconciliacao_djo_paj as t1 set t1.SITUACAO = NULL, DATA_SITUACAO = NULL  where SITUACAO = 'INEDITO SOLICITADO' AND DATA_SITUACAO < curdate()";
              stmt = con.prepareStatement(sql);
             stmt.execute();
              
-             sql = "update rejud.tb_desconciliacao_djo_paj as t1 set DIAS_DESCONCILIADO = datediff(curdate(),DATA_ENTRADA_BD) where DATA_PRIMEIRO_TRATAMENTO IS NULL AND DATA_ENTRADA_BD IS NOT NULL";
+             sql = "update retab.tb_desconciliacao_djo_paj as t1 set DIAS_DESCONCILIADO = datediff(curdate(),DATA_ENTRADA_BD) where DATA_PRIMEIRO_TRATAMENTO IS NULL AND DATA_ENTRADA_BD IS NOT NULL";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
              
-             sql = "UPDATE rejud.tb_desconciliacao_djo_paj AS t1 set DATA_PRIMEIRO_TRATAMENTO = (t1.DATA_SITUACAO)  where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA' AND DATA_PRIMEIRO_TRATAMENTO IS NULL";
+             sql = "UPDATE retab.tb_desconciliacao_djo_paj AS t1 set DATA_PRIMEIRO_TRATAMENTO = (t1.DATA_SITUACAO)  where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA' AND DATA_PRIMEIRO_TRATAMENTO IS NULL";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
-             sql = "UPDATE rejud.tb_desconciliacao_djo_paj as t1 set DIAS_DESCONCILIADO = datediff(DATA_PRIMEIRO_TRATAMENTO,DATA_ENTRADA_BD) where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO='ANOTAÇÃO AUTOMÁTICA'";
+             sql = "UPDATE retab.tb_desconciliacao_djo_paj as t1 set DIAS_DESCONCILIADO = datediff(DATA_PRIMEIRO_TRATAMENTO,DATA_ENTRADA_BD) where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO='ANOTAÇÃO AUTOMÁTICA'";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
              
-             sql = "UPDATE rejud.tb_desconciliacao_djo_paj  as t1 set TRATADO_PRAZO = 'SIM' where (DIAS_DESCONCILIADO  <=10 and DIAS_DESCONCILIADO>=0 OR DIAS_DESCONCILIADO IS NULL)  AND (TRATADO_PRAZO IS NULL OR TRATADO_PRAZO = 'NAO') AND DATA_PRIMEIRO_TRATAMENTO IS NOT NULL AND SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA'";
+             sql = "UPDATE retab.tb_desconciliacao_djo_paj  as t1 set TRATADO_PRAZO = 'SIM' where (DIAS_DESCONCILIADO  <=10 and DIAS_DESCONCILIADO>=0 OR DIAS_DESCONCILIADO IS NULL)  AND (TRATADO_PRAZO IS NULL OR TRATADO_PRAZO = 'NAO') AND DATA_PRIMEIRO_TRATAMENTO IS NOT NULL AND SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA'";
              stmt = con.prepareStatement(sql);
              stmt.execute();
              
@@ -764,8 +764,8 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         
          Desconciliacao desconciliacao = null;
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
-            String sql = "SELECT * FROM rejud.tb_desconciliacao_djo_paj where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO='ANOTAÇÃO AUTOMÁTICA' AND DATA_SITUACAO  LIKE '%' '" + Utils.getDataAtualFormatoMysql() + "' '%'";
+            Connection con = ConnectionFactory.conectar("retab");
+            String sql = "SELECT * FROM retab.tb_desconciliacao_djo_paj where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO='ANOTAÇÃO AUTOMÁTICA' AND DATA_SITUACAO  LIKE '%' '" + Utils.getDataAtualFormatoMysql() + "' '%'";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Desconciliacao> desconciliacoes = new ArrayList<>();
@@ -822,7 +822,7 @@ public class DesconciliacaoDAO implements CrudDAO<Desconciliacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_historico_desconciliacao_djo_paj (CODIGO_DESCONCILIACAO,NPJ,VARIACAO_NPJ,CONTA_CONTROLE,CONTA_DEPOSITARIA,SALDO_CONTA_CONTROLE,SALDO_DEPOSITO,VALOR_DESCONCILIACAO,SITUACAO,DATA_SITUACAO,FUNCIONARIO_RESPONSAVEL_SITUACAO,NOME_TRATAMENTO,DATA_DESCONCILIACAO,DIAS_DESCONCILIADO,DATA_ENTRADA_BD,MES_TRATAMENTO,CODIGO_FUNCAO,UOR_LOCALIZACAO,CODIGO_TAREFA) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             stmt = con.prepareStatement(sql);

@@ -49,7 +49,7 @@ public class SerieDesconciliacaoDAO implements CrudDAO<SerieDesconciliacao> {
         List<SerieDesconciliacao> series;
         
          try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_serie_historica_desconciliacao_dj_paj order by DATA DESC";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

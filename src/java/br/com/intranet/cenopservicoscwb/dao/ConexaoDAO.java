@@ -60,8 +60,8 @@ public class ConexaoDAO implements CrudDAO<Conexao>{
         
          Conexao conexao = null;
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
-            String sql = "SELECT * FROM rejud.tb_conexao where extract(month  FROM DATA) = extract(month FROM curdate()) order by DATA DESC";
+            Connection con = ConnectionFactory.conectar("retab");
+            String sql = "SELECT * FROM retab.tb_conexao where extract(month  FROM DATA) = extract(month FROM curdate()) order by DATA DESC";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Conexao> listaConexao = new ArrayList<>();

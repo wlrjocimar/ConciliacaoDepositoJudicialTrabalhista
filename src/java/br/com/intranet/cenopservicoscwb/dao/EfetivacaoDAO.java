@@ -36,7 +36,7 @@ public class EfetivacaoDAO implements CrudDAO<Efetivacao> {
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getCodigo() == null) {
                 sql = "INSERT INTO tb_efetivacao_dep (NPJ,AUTOR,PROCESSO,VALOR_EFETIVACAO,BANCO_DEPOSITARIO,"
@@ -116,7 +116,7 @@ public class EfetivacaoDAO implements CrudDAO<Efetivacao> {
     @Override
     public void deletar(Efetivacao entidade) throws ErroSistema {
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "delete from tb_efetivacao_dep  where CODIGO = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigo());
@@ -139,8 +139,8 @@ public class EfetivacaoDAO implements CrudDAO<Efetivacao> {
 
         Efetivacao efetivacao = null;
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
-            String sql = "SELECT * FROM rejud.tb_efetivacao_dep order by CODIGO DESC";
+            Connection con = ConnectionFactory.conectar("retab");
+            String sql = "SELECT * FROM retab.tb_efetivacao_dep order by CODIGO DESC";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Efetivacao> listaEfetivacao = new ArrayList<>();

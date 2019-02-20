@@ -39,7 +39,7 @@ public class IneditoDAO implements  CrudDAO<Inedito>{
             try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getCodigo()== null) {
                 sql = "INSERT INTO tb_inedito (NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,VL_RSGT,NR_OFICIO,FUNCIONARIO_RESPONSAVEL_SOLICITACAO,DATA_SOLICITACAO,TIPO_DESTINACAO) VALUES (?,?,?,?,?,?,?,?)";
@@ -97,7 +97,7 @@ public class IneditoDAO implements  CrudDAO<Inedito>{
     public void deletar(Inedito entidade) throws ErroSistema {
                 
           try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "delete from tb_inedito where CODIGO = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigo());
@@ -123,7 +123,7 @@ public class IneditoDAO implements  CrudDAO<Inedito>{
          List<Inedito> ineditos;
         
          try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_inedito where OBS_TRATAR = '' OR OBS_TRATAR IS NULL OR OBS_TRATAR NOT LIKE '%' 'sucesso' '%' order by TIPO_DESTINACAO DESC,DATA_SOLICITACAO DESC";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();

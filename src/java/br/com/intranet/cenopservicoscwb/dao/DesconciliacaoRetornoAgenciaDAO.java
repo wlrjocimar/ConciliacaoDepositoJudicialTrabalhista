@@ -46,7 +46,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getDataPrimeiroTratamento() == null) {
                 sql = "UPDATE tb_desconciliacao_djo_paj set NPJ=?, CONTA_CONTROLE=? , CONTA_DEPOSITARIA=? , SALDO_CONTA_CONTROLE=? , SALDO_DEPOSITO=?"
@@ -139,7 +139,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_orcado_realizado_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,SITUACAO,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,"
                     + "DATA_DESCONCILIACAO,TRATADO_PRAZO,SALDO_DEPOSITO,DATA_SITUACAO,DATA_RETORNO_AGENCIA,"
@@ -201,7 +201,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO) VALUES (?,?,?,?,?,?)";
             stmt = con.prepareStatement(sql);
@@ -233,7 +233,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
 
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             stmt = con.prepareStatement(sql);
 
@@ -256,7 +256,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_temporaria_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO) VALUES (?,?,?,?,?,?)";
             stmt = con.prepareStatement(sql);
@@ -292,8 +292,8 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
     public List<Desconciliacao> buscar() throws ErroSistema {
         Desconciliacao desconciliacao = null;
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
-            String sql = "SELECT * FROM rejud.tb_desconciliacao_djo_paj where ((SITUACAO = 'RETORNADO AGENCIA' ) AND (AVOCADO = '' OR AVOCADO IS NULL OR ( AVOCADO = 'SIM' AND FUNCIONARIO_ATUAL =  '" + usuario.getChave() + "' )))  ORDER BY abs(VALOR_DESCONCILIACAO) DESC LIMIT 1";
+            Connection con = ConnectionFactory.conectar("retab");
+            String sql = "SELECT * FROM retab.tb_desconciliacao_djo_paj where ((SITUACAO = 'RETORNADO AGENCIA' ) AND (AVOCADO = '' OR AVOCADO IS NULL OR ( AVOCADO = 'SIM' AND FUNCIONARIO_ATUAL =  '" + usuario.getChave() + "' )))  ORDER BY abs(VALOR_DESCONCILIACAO) DESC LIMIT 1";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Desconciliacao> desconciliacoes = new ArrayList<>();
@@ -353,7 +353,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "INSERT INTO tb_historico_desconciliacao_djo_paj (CODIGO_DESCONCILIACAO,NPJ,VARIACAO_NPJ,CONTA_CONTROLE,CONTA_DEPOSITARIA,SALDO_CONTA_CONTROLE,"
                     + "SALDO_DEPOSITO,VALOR_DESCONCILIACAO,SITUACAO,DATA_SITUACAO,FUNCIONARIO_RESPONSAVEL_SITUACAO,NOME_TRATAMENTO,DATA_DESCONCILIACAO,DIAS_DESCONCILIADO,DATA_ENTRADA_BD,MES_TRATAMENTO,CODIGO_FUNCAO,UOR_LOCALIZACAO,CODIGO_TAREFA"
@@ -416,7 +416,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             sql = "UPDATE tb_desconciliacao_djo_paj set AVOCADO=?, DATA_AVOCACAO=?, FUNCIONARIO_ATUAL=? where CODIGO_DESCONCILIACAO=?";
             stmt = con.prepareStatement(sql);
@@ -454,7 +454,7 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         int numeroRegistro = 0;
 
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_desconciliacao_djo_paj where (AVOCADO = 'SIM' AND CODIGO_DESCONCILIACAO =? and FUNCIONARIO_ATUAL <> ? )";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigoDesconciliacao());
@@ -503,9 +503,9 @@ public class DesconciliacaoRetornoAgenciaDAO implements CrudDAO<Desconciliacao> 
         try {
 
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
-            sql = "truncate rejud.tb_temporaria_desconciliacao_djo_paj";
+            sql = "truncate retab.tb_temporaria_desconciliacao_djo_paj";
             stmt = con.prepareStatement(sql);
 
             stmt.execute();

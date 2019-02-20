@@ -30,7 +30,7 @@ public class AtividadeFunciDAO  implements CrudDAO<AtividadeFunci>{
  try {
             String sql;
             PreparedStatement stmt = null;
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
 
             if (entidade.getCodigo() == null) {
                 sql = "INSERT INTO tb_atividade_funci (MATRICULA,CODIGO_ATIVIDADE) VALUES (?,?)";
@@ -76,7 +76,7 @@ public class AtividadeFunciDAO  implements CrudDAO<AtividadeFunci>{
     public void deletar(AtividadeFunci entidade) throws ErroSistema {
 
             try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "delete from tb_atividade_funci where CODIGO = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, entidade.getCodigo());
@@ -99,7 +99,7 @@ public class AtividadeFunciDAO  implements CrudDAO<AtividadeFunci>{
     public List<AtividadeFunci> buscar() throws ErroSistema {
     
          try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "SELECT * FROM tb_atividade_funci";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -186,7 +186,7 @@ public class AtividadeFunciDAO  implements CrudDAO<AtividadeFunci>{
         
         
         
-        Connection con = ConnectionFactory.conectar("rejud");
+        Connection con = ConnectionFactory.conectar("retab");
         Statement busca = con.createStatement();
         String sql = "SELECT * FROM tb_atividade_funci  where MATRICULA=TRIM('" + chave + "')";
 

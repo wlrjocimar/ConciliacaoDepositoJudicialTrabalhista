@@ -26,7 +26,7 @@ public class ProtocoloGsvDAO implements CrudDAO<ProtocoloGsv> {
     public List<ProtocoloGsv> buscar() throws ErroSistema {
 
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "(SELECT T1.CD_PRC,T2.NM_AGRUP_PRC,t3.NM_TIP_ATVD,T1.CD_USU_FUN,\n" +
 "                    t4.NM_FASE_PRC,T1.DT_ENTD_PRC,T1.DT_SAID_PRC,T1.CD_ETP,T1.IDENTIFIC1,\n" +
 "                    T1.IDENTIFIC2,T1.IDENTIFIC3,T1.CD_TIP_ATVD,T1.CD_CLASSE_PRC,t5.NM_ETP,t6.NM_TIP_PRC,t7.NM_CLASSE_PRC\n" +
@@ -117,7 +117,7 @@ public class ProtocoloGsvDAO implements CrudDAO<ProtocoloGsv> {
        
         
         try {
-            Connection con = ConnectionFactory.conectar("rejud");
+            Connection con = ConnectionFactory.conectar("retab");
             String sql = "(SELECT T1.CD_PRC,T2.NM_AGRUP_PRC,t3.NM_TIP_ATVD,T1.CD_USU_FUN,\n" +
 "                    t4.NM_FASE_PRC,T1.DT_ENTD_PRC,T1.DT_SAID_PRC,T1.CD_ETP,T1.IDENTIFIC1,\n" +
 "                    T1.IDENTIFIC2,T1.IDENTIFIC3,T1.CD_TIP_ATVD,T1.CD_CLASSE_PRC,t5.NM_ETP,t6.NM_TIP_PRC,t7.NM_CLASSE_PRC\n" +
