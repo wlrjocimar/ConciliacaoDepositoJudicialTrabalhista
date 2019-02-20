@@ -6,7 +6,7 @@
 
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Conciliação de Depósitos judicias trabalhistas</title>
+        <title>Retab - Conciliação de Depósitos judicias trabalhistas</title>
 
         <h:outputStylesheet library="css" name="template.css"></h:outputStylesheet>
         <h:outputStylesheet library="css" name="gerenciar-gsv.css"></h:outputStylesheet>
@@ -45,7 +45,7 @@
                     </a>
                  <div  style="float: left; width:  80%" >
 
-                        <p style="font-size: 20px;margin-top: 5px;color: white" >Sistema de conciliação de depósitos judiciais trabalhistas</p>
+                        <p style="font-size: 15px;margin-top: 5px;color: white; font-family:arial" >Sistema de conciliação de depósitos judiciais trabalhistas</p>
 
 
                     </div>
@@ -60,9 +60,7 @@
                 <p:submenu label="Desconciliação DJO" icon="ui-icon-document">
 
 
-                        <p:menuitem value="Tratar conexão" url="gerenciar-desconciliacao-conexao.jsf"></p:menuitem>
-                        <p:menuitem value="Tratar retorno agência" url="gerenciar-retorno-agencia.jsf"></p:menuitem>
-                        <p:menuitem value="Tratar novas desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
+                        <p:menuitem value="Tratar Desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
                         
                        
                       
@@ -71,16 +69,6 @@
 
 
 
-
-
-                    <p:menuitem value="Tratar Transferências" url="gerenciar-transferencia.jsf"></p:menuitem>
-                    <p:menuitem value="Tratar Favorável" url="gerenciar-favoravel.jsf"></p:menuitem>
-                    <p:menuitem value="Tratar inconsistências" url="gerenciar-inconsistencia.jsf"></p:menuitem>
-
-                    <p:menuitem value="Tratar Inédito manual" url="gerenciar-desconciliacao-inedito.jsf"></p:menuitem>
-                    <p:menuitem value="Tratar pendência agência" url="gerenciar-pendencia-agencia.jsf"></p:menuitem>
-                    <p:menuitem value="Tratar priorizados" url="gerenciar-desconciliacao_priorizado.jsf"></p:menuitem>
-                    <p:menuitem value="Pesquisar na base" url="gerenciar-desconciliacaoTotal.jsf"></p:menuitem>
 
                 </p:submenu>
 
@@ -136,16 +124,8 @@
 
 
 
-                <p:submenu label="Efetivação" icon="">
-
-
-                    <p:menuitem value="Catalogar efetivação" url="gerenciar-efetivacao.jsf" icon="ui-icon ui-icon-pencil"></p:menuitem>
-
-
-
-                </p:submenu>
                 
-                <p:submenu label="Ferramentas" icon="">
+                <p:submenu label="Inéditos" icon="">
 
 
                     <p:menuitem value="Solicitar tratamento de inédito" url="gerenciar-inedito.jsf" icon="ui-icon ui-icon-pencil"></p:menuitem>
