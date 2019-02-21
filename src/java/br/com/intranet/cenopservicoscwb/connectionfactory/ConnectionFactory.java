@@ -23,15 +23,18 @@ public class ConnectionFactory {
 //    private static final String DB_PASSWORD ="rejud";
 //    
     
-    private static final String DB_USER = "basso";
+//    private static final String DB_USER = "basso";
+//
+//    private static final String DB_PASSWORD = "2579368410";
+    private static final String DB_USER = "jocimar";
 
-    private static final String DB_PASSWORD = "2579368410";
+    private static final String DB_PASSWORD = "jwalter1983";
 
 
     
     public static Connection conectar(String banco) throws ErroSistema{
         
-         String DB_CONEXAO ="jdbc:mysql://10.105.87.250/" + banco;
+         String DB_CONEXAO ="jdbc:mysql://192.168.1.101/" + banco;
        
         
         try {

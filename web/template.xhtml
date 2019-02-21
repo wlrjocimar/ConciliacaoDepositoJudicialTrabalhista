@@ -57,12 +57,34 @@
         <h:form id="menu" >
             <p:menubar  rendered="#{funcionarioBean.isNegar()==false}" >
                 <p:menuitem icon="ui-icon-home" value="Início" url="home.jsf"></p:menuitem>
-                <p:submenu label="Desconciliação DJO" icon="ui-icon-document">
+                <p:submenu label="Desconciliação  djo trabalhista" icon="ui-icon-document">
 
 
-                        <p:menuitem value="Tratar Desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
+                     <!-- <p:menuitem value="Tratar conexão" url="gerenciar-desconciliacao-conexao.jsf"></p:menuitem>
+                        <p:menuitem value="Tratar retorno agência" url="gerenciar-retorno-agencia.jsf"></p:menuitem>
+                        <p:menuitem value="Tratar novas desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
                         
                        
+                      
+
+                   
+
+
+
+
+
+                    <p:menuitem value="Tratar Transferências" url="gerenciar-transferencia.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar Favorável" url="gerenciar-favoravel.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar inconsistências" url="gerenciar-inconsistencia.jsf"></p:menuitem>
+
+                    <p:menuitem value="Tratar Inédito manual" url="gerenciar-desconciliacao-inedito.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar pendência agência" url="gerenciar-pendencia-agencia.jsf"></p:menuitem>
+                    <p:menuitem value="Tratar priorizados" url="gerenciar-desconciliacao_priorizado.jsf"></p:menuitem>
+                    <p:menuitem value="Pesquisar na base" url="gerenciar-desconciliacaoTotal.jsf"></p:menuitem>-->
+
+                        
+                          <p:menuitem value="Tratar novas desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
+                          <p:menuitem value="Minhas pendências" url="gerenciar-desconciliacaoTotal.jsf" rendered="#{funcionarioBean.isCargoGerencial()==false}"></p:menuitem> 
                       
 
                    

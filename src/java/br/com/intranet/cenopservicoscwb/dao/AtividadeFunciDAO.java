@@ -192,7 +192,7 @@ public class AtividadeFunciDAO  implements CrudDAO<AtividadeFunci>{
 
         ResultSet rs = busca.executeQuery(sql);
 
-        AtividadeFunci atividadeFunci = new AtividadeFunci();
+         AtividadeFunci atividadeFunci = new AtividadeFunci();
 
         try {
            if(rs.next()) {
@@ -219,11 +219,8 @@ public class AtividadeFunciDAO  implements CrudDAO<AtividadeFunci>{
               
     
 
-//    funci.setChave("F5078775");
-//    funci.setNome("JOCIMAR WALTER");
-//    funci.setFuncao(4750);
-//    funci.setUORHabitual(286409);
-//    funci.setUORPosicao(286409);
+//   atividadeFunci.setCodigoAtividade(0);
+//   atividadeFunci.setMatricula(chave);
 
     return atividadeFunci;
     }
