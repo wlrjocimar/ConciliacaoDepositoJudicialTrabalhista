@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -25,8 +26,41 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "tb_desconciliacao_djo_paj")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Desconciliacao.findAll", query = "SELECT d FROM Desconciliacao d")})
+    @NamedQuery(name = "Desconciliacao.findAll", query = "SELECT d FROM Desconciliacao d")
+    , @NamedQuery(name = "Desconciliacao.findByCodigoDesconciliacao", query = "SELECT d FROM Desconciliacao d WHERE d.codigoDesconciliacao = :codigoDesconciliacao")
+    , @NamedQuery(name = "Desconciliacao.findByNpj", query = "SELECT d FROM Desconciliacao d WHERE d.npj = :npj")
+    , @NamedQuery(name = "Desconciliacao.findByVariacaoNpj", query = "SELECT d FROM Desconciliacao d WHERE d.variacaoNpj = :variacaoNpj")
+    , @NamedQuery(name = "Desconciliacao.findByContaControle", query = "SELECT d FROM Desconciliacao d WHERE d.contaControle = :contaControle")
+    , @NamedQuery(name = "Desconciliacao.findByContaDepositaria", query = "SELECT d FROM Desconciliacao d WHERE d.contaDepositaria = :contaDepositaria")
+    , @NamedQuery(name = "Desconciliacao.findBySaldoContaControle", query = "SELECT d FROM Desconciliacao d WHERE d.saldoContaControle = :saldoContaControle")
+    , @NamedQuery(name = "Desconciliacao.findBySaldoDeposito", query = "SELECT d FROM Desconciliacao d WHERE d.saldoDeposito = :saldoDeposito")
+    , @NamedQuery(name = "Desconciliacao.findByValorDesconciliacao", query = "SELECT d FROM Desconciliacao d WHERE d.valorDesconciliacao = :valorDesconciliacao")
+    , @NamedQuery(name = "Desconciliacao.findBySituacao", query = "SELECT d FROM Desconciliacao d WHERE d.situacao = :situacao")
+    , @NamedQuery(name = "Desconciliacao.findByDataSituacao", query = "SELECT d FROM Desconciliacao d WHERE d.dataSituacao = :dataSituacao")
+    , @NamedQuery(name = "Desconciliacao.findByDataRetorno", query = "SELECT d FROM Desconciliacao d WHERE d.dataRetorno = :dataRetorno")
+    , @NamedQuery(name = "Desconciliacao.findByFuncionarioResponsavelSituacao", query = "SELECT d FROM Desconciliacao d WHERE d.funcionarioResponsavelSituacao = :funcionarioResponsavelSituacao")
+    , @NamedQuery(name = "Desconciliacao.findByFuncionarioAtual", query = "SELECT d FROM Desconciliacao d WHERE d.funcionarioAtual = :funcionarioAtual")
+    , @NamedQuery(name = "Desconciliacao.findByNomeTratamento", query = "SELECT d FROM Desconciliacao d WHERE d.nomeTratamento = :nomeTratamento")
+    , @NamedQuery(name = "Desconciliacao.findByAvocado", query = "SELECT d FROM Desconciliacao d WHERE d.avocado = :avocado")
+    , @NamedQuery(name = "Desconciliacao.findByDataAvocacao", query = "SELECT d FROM Desconciliacao d WHERE d.dataAvocacao = :dataAvocacao")
+    , @NamedQuery(name = "Desconciliacao.findByDataDesconciliacao", query = "SELECT d FROM Desconciliacao d WHERE d.dataDesconciliacao = :dataDesconciliacao")
+    , @NamedQuery(name = "Desconciliacao.findByDiasDesconciliado", query = "SELECT d FROM Desconciliacao d WHERE d.diasDesconciliado = :diasDesconciliado")
+    , @NamedQuery(name = "Desconciliacao.findByAutor", query = "SELECT d FROM Desconciliacao d WHERE d.autor = :autor")
+    , @NamedQuery(name = "Desconciliacao.findByReu", query = "SELECT d FROM Desconciliacao d WHERE d.reu = :reu")
+    , @NamedQuery(name = "Desconciliacao.findByDataEntradaBd", query = "SELECT d FROM Desconciliacao d WHERE d.dataEntradaBd = :dataEntradaBd")
+    , @NamedQuery(name = "Desconciliacao.findByCodigoSituacao", query = "SELECT d FROM Desconciliacao d WHERE d.codigoSituacao = :codigoSituacao")
+    , @NamedQuery(name = "Desconciliacao.findByCodigoTratamento", query = "SELECT d FROM Desconciliacao d WHERE d.codigoTratamento = :codigoTratamento")
+    , @NamedQuery(name = "Desconciliacao.findByNaturezaNpj", query = "SELECT d FROM Desconciliacao d WHERE d.naturezaNpj = :naturezaNpj")
+    , @NamedQuery(name = "Desconciliacao.findByAssunto", query = "SELECT d FROM Desconciliacao d WHERE d.assunto = :assunto")
+    , @NamedQuery(name = "Desconciliacao.findByMateria", query = "SELECT d FROM Desconciliacao d WHERE d.materia = :materia")
+    , @NamedQuery(name = "Desconciliacao.findByObsLivre", query = "SELECT d FROM Desconciliacao d WHERE d.obsLivre = :obsLivre")
+    , @NamedQuery(name = "Desconciliacao.findByDataPrimeiroTratamento", query = "SELECT d FROM Desconciliacao d WHERE d.dataPrimeiroTratamento = :dataPrimeiroTratamento")
+    , @NamedQuery(name = "Desconciliacao.findByTratadoPrazo", query = "SELECT d FROM Desconciliacao d WHERE d.tratadoPrazo = :tratadoPrazo")
+    , @NamedQuery(name = "Desconciliacao.findByDataRetornoAgencia", query = "SELECT d FROM Desconciliacao d WHERE d.dataRetornoAgencia = :dataRetornoAgencia")
+    , @NamedQuery(name = "Desconciliacao.findByDataRotinaSaldoDjo", query = "SELECT d FROM Desconciliacao d WHERE d.dataRotinaSaldoDjo = :dataRotinaSaldoDjo")
+    , @NamedQuery(name = "Desconciliacao.findByIdDesconciliacaoDiris", query = "SELECT d FROM Desconciliacao d WHERE d.idDesconciliacaoDiris = :idDesconciliacaoDiris")})
 public class Desconciliacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -101,6 +135,11 @@ public class Desconciliacao implements Serializable {
     @Column(name = "DATA_RETORNO_AGENCIA")
     @Temporal(TemporalType.DATE)
     private Date dataRetornoAgencia;
+    @Column(name = "DATA_ROTINA_SALDO_DJO")
+    @Temporal(TemporalType.DATE)
+    private Date dataRotinaSaldoDjo;
+    @Column(name = "ID_DESCONCILIACAO_DIRIS")
+    private String idDesconciliacaoDiris;
 
     public Desconciliacao() {
     }
@@ -347,6 +386,22 @@ public class Desconciliacao implements Serializable {
 
     public void setDataRetornoAgencia(Date dataRetornoAgencia) {
         this.dataRetornoAgencia = dataRetornoAgencia;
+    }
+
+    public Date getDataRotinaSaldoDjo() {
+        return dataRotinaSaldoDjo;
+    }
+
+    public void setDataRotinaSaldoDjo(Date dataRotinaSaldoDjo) {
+        this.dataRotinaSaldoDjo = dataRotinaSaldoDjo;
+    }
+
+    public String getIdDesconciliacaoDiris() {
+        return idDesconciliacaoDiris;
+    }
+
+    public void setIdDesconciliacaoDiris(String idDesconciliacaoDiris) {
+        this.idDesconciliacaoDiris = idDesconciliacaoDiris;
     }
 
     @Override

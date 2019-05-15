@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Retab - Conciliação de Depósitos judicias trabalhistas</title>
 
@@ -38,14 +39,14 @@
 
 
             <div align="center" style="float: right; width:  80%">
-                    <a href="http://www.bb.com.br" target="_blank">
+                    <a href="http://cenopservicoscwb.intranet.bb.com.br" target="_blank">
 
                         <h:graphicImage  style="display:inline-block; height:45px"  library="imagens" name="bb-logo.png" title="Voltar para a página do Cenop Serviços Curitiba"  ></h:graphicImage>
 
                     </a>
-                 <div  style="float: left; width:  80%" >
+                    <div  style="float: left; width:  80%" >
 
-                        <p style="font-size: 15px;margin-top: 5px;color: white; font-family:arial" >Sistema de conciliação de depósitos judiciais trabalhistas</p>
+                        <p style="font-size: 15px;margin-top: 10px;color: white; font-family:arial" >Sistema de conciliação de depósitos judiciais trabalhistas</p>
 
 
                     </div>
@@ -82,11 +83,13 @@
                     <p:menuitem value="Tratar priorizados" url="gerenciar-desconciliacao_priorizado.jsf"></p:menuitem>
                     <p:menuitem value="Pesquisar na base" url="gerenciar-desconciliacaoTotal.jsf"></p:menuitem>-->
 
-                        
+                            
+                          <p:menuitem value="Tratar conexão" url="gerenciar-desconciliacao-conexao.jsf"></p:menuitem> 
                           <p:menuitem value="Tratar novas desconciliações" url="gerenciar-desconciliacoes.jsf"></p:menuitem> 
-                          <p:menuitem value="Minhas pendências" url="gerenciar-desconciliacaoTotal.jsf" rendered="#{funcionarioBean.isCargoGerencial()==false}"></p:menuitem> 
-                      
-
+                         
+                          <p:menuitem value="Minhas pendências" url="gerenciar-minhas-pendencias.jsf" rendered="#{funcionarioBean.isCargoGerencial()==false}"></p:menuitem> 
+                          <p:menuitem value="Tratar Favorável" url="gerenciar-favoravel.jsf" rendered="#{funcionarioBean.isCargoGerencial()==false}"></p:menuitem>
+                          <p:menuitem value="Pesquisar base" url="gerenciar-desconciliacaoTotal.jsf"></p:menuitem> 
                    
 
 
@@ -109,11 +112,11 @@
                     <p:menuitem value="Gerar Volumetria" url="gerenciar-volumetria.jsf"></p:menuitem>
                     <p:menuitem value="Gerar orçado/realizado" url="gerenciar-orcado-realizado.jsf"></p:menuitem>
                     <p:menuitem value="Consultar Conexão" url="gerenciar-conexao.jsf"></p:menuitem>
-                    <p:submenu label="Relatórios Spotfire" icon="ui-icon-document" rendered="#{funcionarioBean.isCargoGerencial()}">
+                   <!-- <p:submenu label="Relatórios Spotfire" icon="ui-icon-document" rendered="#{funcionarioBean.isCargoGerencial()}">
                         <p:menuitem value="Relatórios Histórico Funcionário" url="https://bam.bb.com.br/spotfire/wp/OpenAnalysis?file=/%5BP%C3%BAblica%5D/VISIN/UOP/Cenop/Cenop%20Servi%C3%A7os%20Curitiba/REJUD/IL_rejud_view_spf_desconciliacao_historico_djo_paj" target="_blank" ></p:menuitem>
                         <p:menuitem value="Base Desconciliação Dia"  url="https://bam.bb.com.br/spotfire/wp/OpenAnalysis?file=/%5BP%C3%BAblica%5D/VISIN/UOP/Cenop/Cenop%20Servi%C3%A7os%20Curitiba/REJUD/ANALISE_rejud_desconciliacao_diaria_djo_paj"  target="_blank" ></p:menuitem>
                         <p:menuitem value="Resumo desconciliação atual"  url="https://bam.bb.com.br/spotfire/wp/ViewAnalysis.aspx?file=/%5BP%C3%BAblica%5D/VISIN/UOP/Cenop/Cenop%20Servi%C3%A7os%20Curitiba/REJUD/FATO.rejud.view_desconciliacao_diaria_djo_paj/ANALISE_rejud_desconciliacao_diaria_djo_paj"  target="_blank" ></p:menuitem>
-                    </p:submenu>   
+                    </p:submenu>  --> 
 
                 </p:submenu>
 
@@ -176,5 +179,16 @@
         <br/><h:outputText value="Código da função : #{funcionarioBean.codigoFuncao()}" style="margin-right: 10px " ></h:outputText>
 
     </h:body>
+    
+    <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:50%;bottom:50%">  
+        <f:facet name="start">  
+            <p:graphicImage library="imagens" name="carregando_1.gif" />  
+        </f:facet>  
+        <f:facet name="complete">  
+            <h:outputText value="" />  
+        </f:facet>  
+    </p:ajaxStatus>  
+    
+    
 </html>
 

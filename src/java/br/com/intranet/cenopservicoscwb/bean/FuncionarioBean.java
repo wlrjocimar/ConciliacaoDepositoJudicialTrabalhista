@@ -42,15 +42,15 @@ public class FuncionarioBean extends CrudBean<Funcionario, FuncionarioDAO>{
         
             if(usuario.getFuncao()== 4750 || usuario.getFuncao()== 4438 || usuario.getFuncao()== 4750 || 
                     usuario.getFuncao()== 4665 || usuario.getFuncao()== 4072  || 
-                    usuario.getChave().equals("F0423403") || usuario.getChave().equals("F4281065") ||atividadeFunci.getCodigoAtividade()==6 ){
+                    usuario.getChave().equals("F0423403") || usuario.getChave().equals("F4281065") ||atividadeFunci.getCodigoAtividade()==6 || usuario.getUORHabitual()== 283268 ){
                 
                 mudarParaCargoGerencial();
                 
             }
             
             
-            
-            if(usuario.getUORPosicao() !=  286409 && usuario.getUORPosicao() !=  287339  && usuario.getUORPosicao() !=  286399 && usuario.getUORPosicao() !=  284646   && usuario.getUORPosicao() !=  454062  && usuario.getUORPosicao() !=  10544 && usuario.getUORPosicao() !=  79771 && usuario.getUORPosicao() != 286369  ){
+            //UOR 283268 - UOP
+            if(usuario.getUORPosicao() !=  283268 && usuario.getUORPosicao() !=  286409 && usuario.getUORPosicao() !=  287339  && usuario.getUORPosicao() !=  286399 && usuario.getUORPosicao() !=  284646   && usuario.getUORPosicao() !=  454062  && usuario.getUORPosicao() !=  10544 && usuario.getUORPosicao() !=  79771 && usuario.getUORPosicao() != 286369 && usuario.getUORPosicao() != 446531 ){
                 
                 try {
                    FacesContext.getCurrentInstance().getExternalContext().redirect("sem-acesso.jsf");

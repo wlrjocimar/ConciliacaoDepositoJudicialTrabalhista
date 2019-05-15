@@ -6,6 +6,7 @@
 package br.com.intranet.cenopservicoscwb.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,15 +19,26 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author suporte
+ * @author F5078775
  */
 @Entity
 @Table(name = "tb_serie_historica_desconciliacao_dj_paj")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SerieDesconciliacao.findAll", query = "SELECT s FROM SerieDesconciliacao s")})
+    @NamedQuery(name = "SerieDesconciliacao.findAll", query = "SELECT s FROM SerieDesconciliacao s")
+    , @NamedQuery(name = "SerieDesconciliacao.findByCodigo", query = "SELECT s FROM SerieDesconciliacao s WHERE s.codigo = :codigo")
+    , @NamedQuery(name = "SerieDesconciliacao.findByQuantidade", query = "SELECT s FROM SerieDesconciliacao s WHERE s.quantidade = :quantidade")
+    , @NamedQuery(name = "SerieDesconciliacao.findByValor", query = "SELECT s FROM SerieDesconciliacao s WHERE s.valor = :valor")
+    , @NamedQuery(name = "SerieDesconciliacao.findByData", query = "SELECT s FROM SerieDesconciliacao s WHERE s.data = :data")
+    , @NamedQuery(name = "SerieDesconciliacao.findByValorAbsoluto", query = "SELECT s FROM SerieDesconciliacao s WHERE s.valorAbsoluto = :valorAbsoluto")
+    , @NamedQuery(name = "SerieDesconciliacao.findByQtdEntrada", query = "SELECT s FROM SerieDesconciliacao s WHERE s.qtdEntrada = :qtdEntrada")
+    , @NamedQuery(name = "SerieDesconciliacao.findByValorEntrada", query = "SELECT s FROM SerieDesconciliacao s WHERE s.valorEntrada = :valorEntrada")
+    , @NamedQuery(name = "SerieDesconciliacao.findByQtdSaida", query = "SELECT s FROM SerieDesconciliacao s WHERE s.qtdSaida = :qtdSaida")
+    , @NamedQuery(name = "SerieDesconciliacao.findByValorSaida", query = "SELECT s FROM SerieDesconciliacao s WHERE s.valorSaida = :valorSaida")})
 public class SerieDesconciliacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +57,14 @@ public class SerieDesconciliacao implements Serializable {
     private Date data;
     @Column(name = "VALOR_ABSOLUTO")
     private Double valorAbsoluto;
+    @Column(name = "QTD_ENTRADA")
+    private Integer qtdEntrada;
+    @Column(name = "VALOR_ENTRADA")
+    private BigDecimal valorEntrada;
+    @Column(name = "QTD_SAIDA")
+    private Integer qtdSaida;
+    @Column(name = "VALOR_SAIDA")
+    private BigDecimal valorSaida;
 
     public SerieDesconciliacao() {
     }
@@ -91,6 +111,38 @@ public class SerieDesconciliacao implements Serializable {
 
     public void setValorAbsoluto(Double valorAbsoluto) {
         this.valorAbsoluto = valorAbsoluto;
+    }
+
+    public Integer getQtdEntrada() {
+        return qtdEntrada;
+    }
+
+    public void setQtdEntrada(Integer qtdEntrada) {
+        this.qtdEntrada = qtdEntrada;
+    }
+
+    public BigDecimal getValorEntrada() {
+        return valorEntrada;
+    }
+
+    public void setValorEntrada(BigDecimal valorEntrada) {
+        this.valorEntrada = valorEntrada;
+    }
+
+    public Integer getQtdSaida() {
+        return qtdSaida;
+    }
+
+    public void setQtdSaida(Integer qtdSaida) {
+        this.qtdSaida = qtdSaida;
+    }
+
+    public BigDecimal getValorSaida() {
+        return valorSaida;
+    }
+
+    public void setValorSaida(BigDecimal valorSaida) {
+        this.valorSaida = valorSaida;
     }
 
     @Override

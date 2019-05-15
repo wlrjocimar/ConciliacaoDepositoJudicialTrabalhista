@@ -15,18 +15,8 @@ public class ConnectionFactory {
 
     private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
 
-//    private static final String DB_USER ="rejud";
-//  
-//    private static final String DB_PASSWORD ="giEC8e";
-//    private static final String DB_USER ="rejud";
-//  
-//    private static final String DB_PASSWORD ="rejud";
-//    
     
-//    private static final String DB_USER = "basso";
-//
-//    private static final String DB_PASSWORD = "2579368410";
-    private static final String DB_USER = "jocimar";
+    private static final String DB_USER = "f5078775";
 
     private static final String DB_PASSWORD = "jwalter1983";
 
@@ -34,7 +24,7 @@ public class ConnectionFactory {
     
     public static Connection conectar(String banco) throws ErroSistema{
         
-         String DB_CONEXAO ="jdbc:mysql://192.168.1.101/" + banco;
+         String DB_CONEXAO ="jdbc:mysql://172.20.0.33/" + banco;
        
         
         try {

@@ -339,7 +339,9 @@ public class DesconciliacaoConexaoDAO implements CrudDAO<Desconciliacao> {
 
             }
 
-            avocar(desconciliacao);
+             if(desconciliacao != null){
+              avocar(desconciliacao);  
+           } 
             return desconciliacoes;
 
         } catch (SQLException ex) {

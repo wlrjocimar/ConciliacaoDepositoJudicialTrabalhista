@@ -6,8 +6,9 @@ import br.com.intranet.cenopservicoscwb.entity.SerieDesconciliacao;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
-@SessionScoped
+@ViewScoped
 @ManagedBean
 public class SerieDesconciliacaoBean  extends CrudBean<SerieDesconciliacao, SerieDesconciliacaoDAO>{
     private SerieDesconciliacaoDAO desconciliacaoDAO;

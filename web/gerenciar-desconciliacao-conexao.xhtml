@@ -27,7 +27,7 @@
                 <p:toolbarGroup >
 
 
-                    <p:commandButton  value="Salvar" action="#{desconciliacaoConexaoBean.validarParaSalvar()}" rendered="#{desconciliacaoConexaoBean.isBuscar()==false}" update=":frmPrincipal"></p:commandButton>
+                    <p:commandButton  value="Salvar" action="#{desconciliacaoConexaoBean.validarParaSalvar()}" rendered="#{desconciliacaoConexaoBean.isBuscar()==false}" actionListener="#{desconciliacaoConexaoQuantidadeBean.buscar()}" update=":frmPrincipal"></p:commandButton>
 
                     <p:button  style="width: 150px"  value="Inédito" href="gerenciar-inedito.jsf"   target="_blank"/>
                 </p:toolbarGroup>

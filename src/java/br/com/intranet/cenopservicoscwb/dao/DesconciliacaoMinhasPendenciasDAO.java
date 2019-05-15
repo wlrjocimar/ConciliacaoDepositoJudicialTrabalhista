@@ -27,54 +27,59 @@ import javax.servlet.http.HttpSession;
  *
  * @author PC_LENOVO
  */
-public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
-    
-      
-    
-    
+public class DesconciliacaoMinhasPendenciasDAO implements CrudDAO<Desconciliacao> {
+
 
     @Override
     public void salvar(Desconciliacao entidade) throws ErroSistema {
-        GrupoStatusDAO statusDAO = new GrupoStatusDAO();
-        GrupoTratamentoDAO tratamentoDAO = new GrupoTratamentoDAO();
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
-
-        Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
         
+        
+    GrupoStatusDAO statusDAO = new GrupoStatusDAO();
+    GrupoTratamentoDAO tratamentoDAO = new GrupoTratamentoDAO();
+    FacesContext fc = FacesContext.getCurrentInstance();
+    HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+
+    Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
+
         try {
             String sql;
             PreparedStatement stmt = null;
             Connection con = ConnectionFactory.conectar("retab");
-           
-             if (entidade.getDataPrimeiroTratamento()== null) {
-                 sql = "UPDATE tb_desconciliacao_djo_paj set NPJ=?, CONTA_CONTROLE=? , CONTA_DEPOSITARIA=? , SALDO_CONTA_CONTROLE=? , SALDO_DEPOSITO=?"
+
+            if (entidade.getDataPrimeiroTratamento() == null) {
+                sql = "UPDATE tb_desconciliacao_djo_paj set NPJ=?, CONTA_CONTROLE=? , CONTA_DEPOSITARIA=? , SALDO_CONTA_CONTROLE=? , SALDO_DEPOSITO=?"
                         + " , VALOR_DESCONCILIACAO=? , SITUACAO=? , DATA_SITUACAO=? , FUNCIONARIO_RESPONSAVEL_SITUACAO=?"
                         + " , NOME_TRATAMENTO=? , AVOCADO=?, DATA_AVOCACAO=?, DATA_DESCONCILIACAO=?, OBS_LIVRE = ?, DATA_PRIMEIRO_TRATAMENTO = ?, TRATADO_PRAZO = ?, CODIGO_SITUACAO = ?,CODIGO_TRATAMENTO=?  where CODIGO_DESCONCILIACAO=?";
                 stmt = con.prepareStatement(sql);
                 try {
                     stmt.setDate(15, Utils.getDataAtualFormatoMysql());
                 } catch (Exception ex) {
-                  throw new ErroSistema("Erro ao tentar verificar data atual", ex);
+                    throw new ErroSistema("Erro ao tentar verificar data atual", ex);
                 }
-                if(entidade.getDiasDesconciliado()<=10){
-                stmt.setString(16, "SIM");
-                } else{
-                 stmt.setString(16, "NAO");   
+                if (entidade.getDiasDesconciliado() <= 10) {
+                    stmt.setString(16, "SIM");
+                } else {
+                    stmt.setString(16, "NAO");
                 }
                 stmt.setInt(17, entidade.getCodigoSituacao());
                 stmt.setInt(18, entidade.getCodigoTratamento());
                 stmt.setInt(19, entidade.getCodigoDesconciliacao());
-               
+
             } else {
                 sql = "UPDATE tb_desconciliacao_djo_paj set NPJ=?, CONTA_CONTROLE=? , CONTA_DEPOSITARIA=? , SALDO_CONTA_CONTROLE=? , SALDO_DEPOSITO=?"
                         + " , VALOR_DESCONCILIACAO=? , SITUACAO=? , DATA_SITUACAO=? , FUNCIONARIO_RESPONSAVEL_SITUACAO=?"
-                        + " , NOME_TRATAMENTO=? , AVOCADO=?, DATA_AVOCACAO=?, DATA_DESCONCILIACAO=?, OBS_LIVRE = ?,CODIGO_SITUACAO=?,CODIGO_TRATAMENTO=? where CODIGO_DESCONCILIACAO=?";
+                        + " , NOME_TRATAMENTO=? , AVOCADO=?, DATA_AVOCACAO=?, DATA_DESCONCILIACAO=?, OBS_LIVRE = ?,CODIGO_SITUACAO=?,CODIGO_TRATAMENTO=?,TRATADO_PRAZO = ? where CODIGO_DESCONCILIACAO=?";
                 stmt = con.prepareStatement(sql);
                 stmt.setInt(15, entidade.getCodigoSituacao());
                 stmt.setInt(16, entidade.getCodigoTratamento());
-                stmt.setInt(17, entidade.getCodigoDesconciliacao());
-                
+                if (entidade.getDiasDesconciliado() <= 10) {
+                    stmt.setString(17, "SIM");
+                } else {
+                    stmt.setString(17, "NAO");
+                }
+
+                stmt.setInt(18, entidade.getCodigoDesconciliacao());
+
             }
 
             stmt.setString(1, entidade.getNpj());
@@ -99,12 +104,11 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
             stmt.setString(11, "");
             stmt.setDate(12, (Date) entidade.getDataAvocacao());
             stmt.setDate(13, (Date) entidade.getDataDesconciliacao());
-            stmt.setString(14,  entidade.getObsLivre());
-            
-           
+            stmt.setString(14, entidade.getObsLivre());
 
             stmt.executeUpdate();
             salvarHistorico(entidade);
+            gerarOrcado(entidade);
 
         } catch (SQLException ex) {
 
@@ -112,7 +116,78 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
 
         } finally {
 
-            
+            ConnectionFactory.fecharConexao();
+
+        }
+
+    }
+
+    public void gerarOrcado(Desconciliacao entidade) throws ErroSistema {
+
+        GrupoStatusDAO statusDAO = new GrupoStatusDAO();
+        GrupoTratamentoDAO tratamentoDAO = new GrupoTratamentoDAO();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+
+        Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
+        if (entidade.getTratadoPrazo() != null) {
+            return;
+        }
+
+        try {
+            String sql;
+            PreparedStatement stmt = null;
+            Connection con = ConnectionFactory.conectar("retab");
+
+            sql = "INSERT INTO tb_orcado_realizado_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,SITUACAO,AUTOR,CONTA_DEPOSITARIA,VALOR_DESCONCILIACAO,"
+                    + "DATA_DESCONCILIACAO,TRATADO_PRAZO,SALDO_DEPOSITO,DATA_SITUACAO,DATA_RETORNO_AGENCIA,"
+                    + "FUNCIONARIO_RESPONSAVEL_SITUACAO,FUNCIONARIO_ATUAL,NOME_TRATAMENTO,"
+                    + "DIAS_DESCONCILIADO,DATA_ENTRADA_BD,DATA_PRIMEIRO_TRATAMENTO)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, entidade.getNpj());
+            stmt.setInt(2, entidade.getVariacaoNpj());
+            stmt.setString(3, entidade.getSituacao());
+            stmt.setString(4, entidade.getAutor());
+            stmt.setString(5, entidade.getContaDepositaria());
+            stmt.setDouble(6, entidade.getValorDesconciliacao());
+
+            stmt.setDate(7, (Date) entidade.getDataDesconciliacao());
+            if (entidade.getDiasDesconciliado() <= 10) {
+                stmt.setString(8, "SIM");
+            } else {
+                stmt.setString(8, "NAO");
+            }
+
+            stmt.setDouble(9, entidade.getSaldoDeposito());
+            stmt.setDate(10, (Date) entidade.getDataSituacao());
+            stmt.setDate(11, (Date) entidade.getDataRetornoAgencia());
+            stmt.setString(12, usuario.getChave());
+            stmt.setString(13, entidade.getFuncionarioAtual());
+            stmt.setString(14, entidade.getNomeTratamento());
+            stmt.setInt(15, entidade.getDiasDesconciliado());
+
+            stmt.setDate(16, (Date) entidade.getDataEntradaBd());
+
+            if (entidade.getDataPrimeiroTratamento() == null) {
+                try {
+                    entidade.setDataPrimeiroTratamento(Utils.getDataAtualFormatoMysql());
+                } catch (Exception ex) {
+                    throw new ErroSistema("Erro ao tentar salvar data atual na tabela de orcado", ex);
+                }
+            }
+
+            stmt.setDate(17, (Date) entidade.getDataPrimeiroTratamento());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            throw new ErroSistema("Erro ao tentar salvar orcado", ex);
+
+        } finally {
+
             ConnectionFactory.fecharConexao();
 
         }
@@ -176,8 +251,6 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
 
     public void inserirRegistroNovoTbTemporaria(Desconciliacao entidade) throws ErroSistema {
 
-        
-
         try {
             String sql;
             PreparedStatement stmt = null;
@@ -205,11 +278,6 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
             ConnectionFactory.fecharConexao();
 
         }
-        
-        
-        
-        
-        
 
     }
 
@@ -221,24 +289,22 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
     @Override
     public List<Desconciliacao> buscar() throws ErroSistema {
         
-        FacesContext fc = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+    FacesContext fc = FacesContext.getCurrentInstance();
+    HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
 
-        Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
+    Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
         
         
-        
-         Desconciliacao desconciliacao = null;
         try {
             Connection con = ConnectionFactory.conectar("retab");
-            String sql = "SELECT * FROM retab.tb_desconciliacao_djo_paj where (SITUACAO  LIKE '%' 'FAVO' '%')";
+            String sql = "SELECT * FROM retab.tb_desconciliacao_djo_paj where (SITUACAO IS NOT NULL and SITUACAO <> '' and SITUACAO <> 'REGULARIZADO' and SITUACAO not like '%' 'FAVO' '%') and (FUNCIONARIO_RESPONSAVEL_SITUACAO = '" + usuario.getChave() + "')";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             List<Desconciliacao> desconciliacoes = new ArrayList<>();
 
             while (rs.next()) {
 
-                 desconciliacao = new Desconciliacao();
+                Desconciliacao desconciliacao = new Desconciliacao();
 
                 desconciliacao.setCodigoDesconciliacao(rs.getInt("CODIGO_DESCONCILIACAO"));
                 desconciliacao.setNpj(rs.getString("NPJ"));
@@ -263,12 +329,16 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
                 desconciliacao.setMateria(rs.getString("MATERIA"));
                 desconciliacao.setAssunto(rs.getString("ASSUNTO"));
                 desconciliacao.setDataPrimeiroTratamento(rs.getDate("DATA_PRIMEIRO_TRATAMENTO"));
+                desconciliacao.setDiasDesconciliado(rs.getInt("DIAS_DESCONCILIADO"));
+                desconciliacao.setTratadoPrazo(rs.getString("TRATADO_PRAZO"));
+                desconciliacao.setDataRetornoAgencia(rs.getDate("DATA_RETORNO_AGENCIA"));
+
                 desconciliacoes.add(desconciliacao);
-                
 
             }
 
-            
+            ConnectionFactory.fecharConexao();
+
             return desconciliacoes;
 
         } catch (SQLException ex) {
@@ -318,15 +388,15 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
             // stmt.setDate(15, (Date) entidade.getDataAvocacao());
             stmt.setDate(13, (Date) entidade.getDataDesconciliacao());
             stmt.setInt(14, entidade.getDiasDesconciliado());
-            stmt.setDate(15,(Date) entidade.getDataEntradaBd());
-            stmt.setString(16,Utils.getMesAtual());
-            stmt.setInt(17,usuario.getFuncao());
-            stmt.setInt(18,usuario.getUORPosicao());
-            if((entidade.getValorDesconciliacao()<50000)){
-                
-                stmt.setInt(19,21444);
-            } else{
-                stmt.setInt(19,21443);
+            stmt.setDate(15, (Date) entidade.getDataEntradaBd());
+            stmt.setString(16, Utils.getMesAtual());
+            stmt.setInt(17, usuario.getFuncao());
+            stmt.setInt(18, usuario.getUORPosicao());
+            if ((entidade.getValorDesconciliacao() < 50000)) {
+
+                stmt.setInt(19, 21444);
+            } else {
+                stmt.setInt(19, 21443);
             }
 
             stmt.executeUpdate();
@@ -358,7 +428,7 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
             stmt = con.prepareStatement(sql);
             stmt.setInt(4, entidade.getCodigoDesconciliacao());
 
-            stmt.setString(1, "SIM");
+            stmt.setString(1, entidade.getAvocado());
             try {
                 stmt.setString(2, Utils.getDataHoraAtualMysql());
             } catch (Exception ex) {
@@ -366,6 +436,68 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
             }
             stmt.setString(3, usuario.getChave());
             entidade.setFuncionarioAtual(usuario.getChave());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            throw new ErroSistema("Erro ao tentar avocar registro", ex);
+
+        } finally {
+
+            ConnectionFactory.fecharConexao();
+
+        }
+
+    }
+
+    public void priorizar(Desconciliacao entidade) throws ErroSistema {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+
+        Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
+
+        try {
+            String sql;
+            PreparedStatement stmt = null;
+            Connection con = ConnectionFactory.conectar("retab");
+
+            sql = "UPDATE tb_desconciliacao_djo_paj set SITUACAO=? where CODIGO_DESCONCILIACAO=?";
+            stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, "PRIORIZADO");
+            stmt.setInt(2, entidade.getCodigoDesconciliacao());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+
+            throw new ErroSistema("Erro ao tentar avocar registro", ex);
+
+        } finally {
+
+            ConnectionFactory.fecharConexao();
+
+        }
+
+    }
+
+    public void liberar(Desconciliacao entidade) throws ErroSistema {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+
+        Funcionario usuario = (Funcionario) session.getAttribute("usuarioLogado");
+
+        try {
+            String sql;
+            PreparedStatement stmt = null;
+            Connection con = ConnectionFactory.conectar("retab");
+
+            sql = "UPDATE tb_desconciliacao_djo_paj set AVOCADO=? where CODIGO_DESCONCILIACAO=?";
+            stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, "");
+            stmt.setInt(2, entidade.getCodigoDesconciliacao());
 
             stmt.executeUpdate();
 
@@ -423,19 +555,15 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
             rs.first();
         } catch (SQLException exception) {
             exception.printStackTrace();
-        } finally{
-            
+        } finally {
 
             ConnectionFactory.fecharConexao();
 
-        
         }
         return numResultados;
 
-    } 
+    }
 
-    
-    
     public void apagaRegistrosTabela() throws ErroSistema {
 
         String sql;
@@ -447,12 +575,12 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
 
             sql = "truncate retab.tb_temporaria_desconciliacao_djo_paj";
             stmt = con.prepareStatement(sql);
-            
+
             stmt.execute();
 
         } catch (Exception ex) {
 
-        } finally{
+        } finally {
             ConnectionFactory.fecharConexao();
         }
 
@@ -460,196 +588,41 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
 
     @Override
     public Boolean avaliarParaSalvar(Desconciliacao entidade) {
-      GrupoStatusDAO statusDAO = new GrupoStatusDAO();
-      GrupoTratamentoDAO tratamentoDAO = new GrupoTratamentoDAO();
-        
+        GrupoStatusDAO statusDAO = new GrupoStatusDAO();
+        GrupoTratamentoDAO tratamentoDAO = new GrupoTratamentoDAO();
+
         String status = null;
-        String complemento= null;
+        String complemento = null;
         try {
             status = statusDAO.buscarStatus(entidade.getCodigoSituacao());
             complemento = tratamentoDAO.buscarTratamento(entidade.getCodigoTratamento());
-            
+
         } catch (ErroSistema ex) {
-            Logger.getLogger(DesconciliacaoFavoravelDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DesconciliacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-         
-          
-        
-        
-        
-                if (status.contains("EM TRATAMENTO") &&  complemento == null){
-                    
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!!!", "Status EM TRATAMENTO requer tipo de tratamento" ));
-                    
-                    return false;
-                    
-                
-                
-                }else if(status.contains("INCONSISTENCIA") &&  complemento == null){
-                    
-                    FacesContext context = FacesContext.getCurrentInstance();
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!!!", "Status INCONSISTENCIA requer tipo de tratamento" ));
-                
-                return false;
-                
-                }
-                
-                
-                return true;
-    
 
+        if (status.contains("EM TRATAMENTO") && complemento == null) {
 
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!!!", "Status EM TRATAMENTO requer tipo de tratamento"));
 
+            return false;
 
-    }
+        } else if (status.contains("INCONSISTENCIA") && complemento == null) {
 
-    public void atualizacaoDiaria() throws ErroSistema, SQLException {
-            Connection con = null; 
-            
-        
-        
-         try {
-             
-             
-             
-             
-             
-             con = ConnectionFactory.conectar("retab");
-            
-            con.setAutoCommit(false);
-            String sql = "drop table if exists retab.tb_tmp_incremento";
-            PreparedStatement stmt = con.prepareStatement(sql);
-           stmt.execute();
-            
-            
-             sql = "drop table if exists retab.tb_tmp_concluidos";
-             stmt = con.prepareStatement(sql);
-            stmt.execute();
-             
-             
-             sql = "drop table if exists retab.tb_falso_regularizado";
-             stmt = con.prepareStatement(sql);
-            stmt.execute();
-             
-             
-             
-             sql = "create table if not exists retab.tb_tmp_incremento as select * from retab.tb_temporaria_desconciliacao_djo_paj as t1 where not exists (select * from retab.tb_desconciliacao_djo_paj as t2 where(t1.NPJ = t2.NPJ and t1.CONTA_DEPOSITARIA = t2.CONTA_DEPOSITARIA) )";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             
-             
-             
-             sql = "insert into retab.tb_desconciliacao_djo_paj (NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,AUTOR,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO,DATA_ENTRADA_BD)(select NPJ,VARIACAO_NPJ,CONTA_DEPOSITARIA,AUTOR,VALOR_DESCONCILIACAO,DATA_DESCONCILIACAO,curdate() FROM retab.tb_tmp_incremento)";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             sql = "create table if not exists retab.tb_tmp_concluidos as select * from retab.tb_desconciliacao_djo_paj as t1 where not exists (select * from retab.tb_temporaria_desconciliacao_djo_paj as t2 where(t1.NPJ = t2.NPJ and t1.CONTA_DEPOSITARIA = t2.CONTA_DEPOSITARIA) )";
-             stmt = con.prepareStatement(sql);
-            stmt.execute();
-            
-            
-            
-             sql = "create table retab.tb_falso_regularizado as (select t1.NPJ,t1.SITUACAO,t1.CONTA_DEPOSITARIA,t1.VALOR_DESCONCILIACAO,t1.DATA_SITUACAO,t1.DATA_ENTRADA_BD FROM retab.tb_desconciliacao_djo_paj as t1 inner join retab.tb_temporaria_desconciliacao_djo_paj as t2 on t1.NPJ = t2.NPJ AND t1.CONTA_DEPOSITARIA =t2.CONTA_DEPOSITARIA AND t1.SITUACAO = 'REGULARIZADO' AND t1.DATA_SITUACAO < subdate(curdate(),interval 1 day) )";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             sql = " update retab.tb_desconciliacao_djo_paj  as t1 set SITUACAO = NULL, NOME_TRATAMENTO = NULL,DATA_SITUACAO = NULL, OBS_LIVRE = 'Este registro estava marcado como regularizado, foi desmarcado automaticamente devido à persistencia da desconciliação' WHERE  exists (select * from retab.tb_falso_regularizado as t2 where t1.NPJ=t2.NPJ and t1.CONTA_DEPOSITARIA=t2.CONTA_DEPOSITARIA and t1.SITUACAO ='REGULARIZADO')";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             
-             sql = "update retab.tb_desconciliacao_djo_paj  as t1 set SITUACAO = 'REGULARIZADO', NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA',DATA_SITUACAO = curdate() WHERE  exists (select * from retab.tb_tmp_concluidos as t2 where t1.NPJ=t2.NPJ and t1.CONTA_DEPOSITARIA=t2.CONTA_DEPOSITARIA and (t1.SITUACAO is null or t1.SITUACAO = ''))";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-            
-             
-             sql = "INSERT INTO retab.tb_serie_historica_desconciliacao_dj_paj(QUANTIDADE,VALOR,DATA,VALOR_ABSOLUTO) (select count(CODIGO) AS QUANTIDADE,sum((VALOR_DESCONCILIACAO) ) AS VALOR, curdate(),SUM(ABS(VALOR_DESCONCILIACAO)) AS VLR_ABSOLUTO from retab.tb_temporaria_desconciliacao_djo_paj)";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             
-             sql = "update retab.tb_desconciliacao_djo_paj as t1 set t1.AVOCADO = NULL  where AVOCADO = 'SIM' AND DATA_AVOCACAO < curdate()";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             sql = "update retab.tb_desconciliacao_djo_paj as t1 set t1.SITUACAO = NULL, DATA_SITUACAO = NULL  where SITUACAO = 'INEDITO SOLICITADO' AND DATA_SITUACAO < curdate()";
-             stmt = con.prepareStatement(sql);
-            stmt.execute();
-             
-             sql = "update retab.tb_desconciliacao_djo_paj as t1 set DIAS_DESCONCILIADO = datediff(curdate(),DATA_ENTRADA_BD) where DATA_PRIMEIRO_TRATAMENTO IS NULL AND DATA_ENTRADA_BD IS NOT NULL";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             
-             sql = "UPDATE retab.tb_desconciliacao_djo_paj AS t1 set DATA_PRIMEIRO_TRATAMENTO = (t1.DATA_SITUACAO)  where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA' AND DATA_PRIMEIRO_TRATAMENTO IS NULL";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             sql = "UPDATE retab.tb_desconciliacao_djo_paj as t1 set DIAS_DESCONCILIADO = datediff(DATA_PRIMEIRO_TRATAMENTO,DATA_ENTRADA_BD) where SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO='ANOTAÇÃO AUTOMÁTICA'";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             sql = "UPDATE retab.tb_desconciliacao_djo_paj  as t1 set TRATADO_PRAZO = 'SIM' where DIAS_DESCONCILIADO  <=10 and DIAS_DESCONCILIADO>=0 AND (TRATADO_PRAZO IS NULL OR TRATADO_PRAZO = 'NAO') AND DATA_PRIMEIRO_TRATAMENTO IS NOT NULL AND SITUACAO = 'REGULARIZADO' AND NOME_TRATAMENTO = 'ANOTAÇÃO AUTOMÁTICA'";
-             stmt = con.prepareStatement(sql);
-             stmt.execute();
-             
-             
-             con.commit();
-             
-             
-             
-             
-             
-             
-             
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção!!!", "Status INCONSISTENCIA requer tipo de tratamento"));
 
-        } catch (Exception ex) {
-            
-            
-            
-               
-                    con.rollback();
-               
-            
+            return false;
 
-        } finally{
-             con.setAutoCommit(true);
-             ConnectionFactory.fecharConexao();
-             
-         }
-        
-        
+        }
 
-
-
-
-
+        return true;
 
     }
 
     @Override
     public Boolean compararValor(Desconciliacao entidade) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void priorizar(Desconciliacao entidade) throws ErroSistema {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void liberar(Desconciliacao entidade) throws ErroSistema {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -663,13 +636,4 @@ public class DesconciliacaoFavoravelDAO implements CrudDAO<Desconciliacao> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    
-    
-    
-    
-   
-    
-    
-    
 }

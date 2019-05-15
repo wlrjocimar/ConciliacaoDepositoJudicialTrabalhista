@@ -334,6 +334,7 @@ public class DesconciliacaoTotalDAO implements CrudDAO<Desconciliacao> {
                 desconciliacao.setDiasDesconciliado(rs.getInt("DIAS_DESCONCILIADO"));
                 desconciliacao.setTratadoPrazo(rs.getString("TRATADO_PRAZO"));
                 desconciliacao.setDataRetornoAgencia(rs.getDate("DATA_RETORNO_AGENCIA"));
+                desconciliacao.setIdDesconciliacaoDiris(rs.getString("ID_DESCONCILIACAO_DIRIS"));
                 
                 desconciliacoes.add(desconciliacao);
 
